@@ -13,6 +13,7 @@
 		B50D455E13BF6B3200CB9FD4 /* nuvole.png in Resources */ = {isa = PBXBuildFile; fileRef = B50D455D13BF6B3200CB9FD4 /* nuvole.png */; };
 		B50D456013BF6B3600CB9FD4 /* montagne.png in Resources */ = {isa = PBXBuildFile; fileRef = B50D455F13BF6B3500CB9FD4 /* montagne.png */; };
 		B50D456413BF6EB400CB9FD4 /* backgroundtec.png in Resources */ = {isa = PBXBuildFile; fileRef = B50D456313BF6EB400CB9FD4 /* backgroundtec.png */; };
+		B58E657613C05DBD0073E79C /* GameManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B58E657513C05DBD0073E79C /* GameManager.m */; };
 		B5A6E53913BB0CAB009C2F7F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5A6E53813BB0CAB009C2F7F /* QuartzCore.framework */; };
 		B5A6E53B13BB0CAB009C2F7F /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5A6E53A13BB0CAB009C2F7F /* OpenGLES.framework */; };
 		B5A6E53D13BB0CAB009C2F7F /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5A6E53C13BB0CAB009C2F7F /* OpenAL.framework */; };
@@ -180,6 +181,8 @@
 		B50D455D13BF6B3200CB9FD4 /* nuvole.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nuvole.png; sourceTree = "<group>"; };
 		B50D455F13BF6B3500CB9FD4 /* montagne.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = montagne.png; sourceTree = "<group>"; };
 		B50D456313BF6EB400CB9FD4 /* backgroundtec.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backgroundtec.png; sourceTree = "<group>"; };
+		B58E657413C05DBD0073E79C /* GameManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameManager.h; sourceTree = "<group>"; };
+		B58E657513C05DBD0073E79C /* GameManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameManager.m; sourceTree = "<group>"; };
 		B5A6E53413BB0CAB009C2F7F /* GeneCar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GeneCar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5A6E53813BB0CAB009C2F7F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		B5A6E53A13BB0CAB009C2F7F /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -543,6 +546,8 @@
 			isa = PBXGroup;
 			children = (
 				B5FCDCDE13BF058400A5F67B /* SynthesizeSingleton.h */,
+				B58E657413C05DBD0073E79C /* GameManager.h */,
+				B58E657513C05DBD0073E79C /* GameManager.m */,
 			);
 			name = Singleton;
 			sourceTree = "<group>";
@@ -1182,6 +1187,7 @@
 				B5FCDCA613BE2FC100A5F67B /* Cromosome.mm in Sources */,
 				B5FCDCAA13BE3A3800A5F67B /* GeneticLab.mm in Sources */,
 				B5FCDCDD13BEFDFA00A5F67B /* HUDLayer.m in Sources */,
+				B58E657613C05DBD0073E79C /* GameManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
