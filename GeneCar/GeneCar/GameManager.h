@@ -7,7 +7,20 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SynthesizeSingleton.h"
+#import "car.h"
+#import "Cromosome.h"
 
 @interface GameManager : NSObject
+{
+
+    Cromosome * cachedCromo;
+    
+    Cromosome * currentCromo;
+
+
+}
+@property(readwrite) Cromosome * cachedCromo;
+@property(readwrite) Cromosome * currentCromo;
 
 @end
