@@ -107,7 +107,12 @@ enum {
      
         mycar = [[car alloc]init];
         
-        [mycar generaFromCromosome:[myLab getNextToTest] world:world];
+        
+        Cromosome *C=[myLab getNextToTest];
+        
+        [mycar generaFromCromosome:C world:world];
+        GameManager * GM=[GameManager sharedGameManager];
+        [GM setCurrentCromo:C];
         
        // [self addChild:mycar];
         
@@ -179,7 +184,11 @@ enum {
         [mycar destroy:world];
     
         mycar = [[car alloc]init];
-        [mycar generaFromCromosome:[myLab getNextToTest] world:world];
+        Cromosome *C=[myLab getNextToTest];
+        
+        [mycar generaFromCromosome:C world:world];
+        GameManager * GM=[GameManager sharedGameManager];
+        [GM setCurrentCromo:C];
     
     }
     tempo_ferma=0;
@@ -191,6 +200,9 @@ enum {
     [myHud setScore:curr_car_score];
     [myHud setAvgFitness:[myLab fitnessmedia]];
     [myHud setGeneration:myLab->generation];
+    
+    
+    
      
 }
 
@@ -248,16 +260,6 @@ enum {
     
     }    
     
-	/*Iterate over the bodies in the physics world
-	for (b2Body* b = world->GetBodyList(); b; b = b->GetNext())
-	{
-		if (b->GetUserData() != NULL) {
-			//Synchronize the AtlasSprites position and rotation with the corresponding body
-			CCSprite *myActor = (CCSprite*)b->GetUserData();
-			myActor.position = CGPointMake( b->GetPosition().x * PTM_RATIO, b->GetPosition().y * PTM_RATIO);
-			myActor.rotation = -1 * CC_RADIANS_TO_DEGREES(b->GetAngle());
-		}	
-	}*/
     
 }
 
@@ -269,7 +271,7 @@ enum {
 		
 		location = [[CCDirector sharedDirector] convertToGL: location];
 		
-		[self testAnotherCar];
+		//[self testAnotherCar];
 	}
 }
 

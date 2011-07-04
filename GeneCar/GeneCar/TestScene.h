@@ -1,16 +1,15 @@
 //
-//  HelloWorldLayer.h
+//  TestScene.h
 //  GeneCar
 //
-//  Created by Andrea Terzani on 29/06/11.
-//  Copyright __MyCompanyName__ 2011. All rights reserved.
+//  Created by Andrea Terzani on 03/07/11.
+//  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-
-// When you import this file, you import all the cocos2d classes
+#import <Foundation/Foundation.h>
+#import "GLES-Render.h"
 #import "cocos2d.h"
 #import "Box2D.h"
-#import "GLES-Render.h"
 #import "car.h"
 #import "Track.h"
 #import "GeneticLab.h"
@@ -18,25 +17,15 @@
 #import "GeneticConfig.h"
 #import "GameManager.h"
 
-// HelloWorldLayer
-@interface HelloWorldLayer : CCLayer
+@interface TestScene : CCLayer
 {
 	b2World* world;
 	GLESDebugDraw *m_debugDraw;
-    NSMutableArray * cars;
+
     car * mycar;
     Track *myTrack;
-    
-    CCLabelTTF *score_Label;
     GeneticLab *myLab;
-    
-    float tempo_ferma;
-    float last_x;
-    
-    float curr_car_score;
-    float curr_car_time;
-    
-    
+
     
 }
 
