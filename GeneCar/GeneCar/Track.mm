@@ -212,12 +212,12 @@
             v[i].x=vertices[i].x*PTM_RATIO;
             v[i].y=vertices[i].y*PTM_RATIO;
         }
-        glColor4f(0.0,0.8,0.5, 0.1);
+        glColor4f(0.2,0.2,0.2, 1.0);
         
         
         glLineWidth(2.0f);
         ccDrawPoly(v,vertexCount,NO);
-        
+        ccDrawFillPoly(v,vertexCount,YES,YES);
     }
 
 

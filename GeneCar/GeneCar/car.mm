@@ -255,19 +255,19 @@
     spring1->SetMotorSpeed(-10*pow(spring1->GetJointTranslation(),1));    
     */
     
-    float torque0= 1+(body->GetMass()*7)/raggio0;
-    float speed0=raggio0*6*b2_pi;
+    float torque0= 1+(body->GetMass()*3)/raggio0;
+    float speed0=raggio0*5*b2_pi;
     
     motor0->SetMotorSpeed(-speed0);
     motor0->SetMaxMotorTorque(torque0);
     //motor0->SetMaxMotorTorque(50);
     
-    float torque1= 1+(body_mass*7)/raggio0;
-    float speed1=raggio1*6*b2_pi;
+    float torque1= 1+(body_mass*3)/raggio0;
+    float speed1=raggio1*5*b2_pi;
 
     motor1->SetMotorSpeed(-speed1);
     motor1->SetMaxMotorTorque(torque1);
-    //NSLog([NSString stringWithFormat:@"Trq:%f",torque0]);
+    NSLog([NSString stringWithFormat:@"MAss:%f",body_mass]);
     //motor1->SetMaxMotorTorque(50);
     
     
