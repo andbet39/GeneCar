@@ -18,4 +18,7 @@
 #define OFFSET 0
 #define PTM_RATIO 32
 
+
+#define V_ITERATION 20
+#define P_ITERATION 1
 #endif
