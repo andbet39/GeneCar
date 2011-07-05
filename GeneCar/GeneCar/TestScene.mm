@@ -152,8 +152,8 @@ enum {
 
 -(void) tick: (ccTime) dt
 {
-	int32 velocityIterations = 15;
-	int32 positionIterations = 1;
+    int32 velocityIterations = V_ITERATION;
+	int32 positionIterations = P_ITERATION;
     
     HudTestScene *myHud = [HudTestScene sharedHudTestScene];
     
