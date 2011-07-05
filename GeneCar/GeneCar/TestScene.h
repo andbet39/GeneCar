@@ -16,15 +16,18 @@
 #import "HUDLayer.h"
 #import "GeneticConfig.h"
 #import "GameManager.h"
+#import "PlayableCar.h"
+#import "HudTestScene.h"
 
 @interface TestScene : CCLayer
 {
 	b2World* world;
 	GLESDebugDraw *m_debugDraw;
 
-    car * mycar;
+    PlayableCar * mycar;
     Track *myTrack;
     GeneticLab *myLab;
+    
 
     
 }
@@ -33,5 +36,6 @@
 +(CCScene *) scene;
 // adds a new sprite at a given coordinate
 -(void) addNewSpriteWithCoords:(CGPoint)p;
+-(void) resetCar;
 
 @end

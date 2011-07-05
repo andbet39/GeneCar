@@ -10,9 +10,14 @@
 #import "car.h"
 
 @interface PlayableCar : car
+{
+    float motors_speed;
 
+}
 
 
 -(void) update;
+-(void) accelera;
+-(void) frena;
 
 @end

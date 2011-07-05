@@ -61,8 +61,8 @@
         angle_wheel0 = (float)arc4random()/RAND_MAX*b2_pi;
         angle_wheel1 = (float)arc4random()/RAND_MAX*b2_pi;
         
-        radius_wheel0 =(float)(arc4random()/(RAND_MAX*2.0F)*1.1F)+0.3f;        
-        radius_wheel1 =(float)(arc4random()/(RAND_MAX*2.0F)*1.1F)+0.3f;
+        radius_wheel0 =(float)(arc4random()/(RAND_MAX*2.0F)*0.8F)+0.2f;        
+        radius_wheel1 =(float)(arc4random()/(RAND_MAX*2.0F)*0.8F)+0.2f;
 
     }
     return self;

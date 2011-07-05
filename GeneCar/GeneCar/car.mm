@@ -92,7 +92,7 @@
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
     
-	bodyDef.position.Set(10, 4);
+	bodyDef.position.Set(10, 5);
     
     
     body = world->CreateBody(&bodyDef);
@@ -103,8 +103,8 @@
     // CARATTERISTICHE SCOCCA
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &dynamicBox;	
-	fixtureDef.density = 0.1f;
-	fixtureDef.friction = 1.0f;
+	fixtureDef.density = 0.8f;
+	fixtureDef.friction = 5.0f;
     fixtureDef.filter.groupIndex = -1;
     
     //CREA LA SCOCCA
@@ -173,8 +173,8 @@
     
     b2PrismaticJointDef springDef;
     springDef.Initialize(body,asse0,asse0->GetWorldCenter(),b2Vec2(cos(rand_ax_ang1),sin(rand_ax_ang1)));
-    springDef.lowerTranslation=-0.3;
-    springDef.upperTranslation=0.5;
+    springDef.lowerTranslation=-0.2;
+    springDef.upperTranslation=0.4;
     springDef.enableLimit=true;
     springDef.enableMotor=true;
     
@@ -199,9 +199,9 @@
 	circleDef.m_radius = raggio0;
 	b2FixtureDef fixtureDef2;
 	fixtureDef2.shape = &circleDef;
-	fixtureDef2.density = 0.01f;
-	fixtureDef2.friction = 5.0f;
-	fixtureDef2.restitution = 0.0f;
+	fixtureDef2.density = 0.8f;
+	fixtureDef2.friction = 4.0f;
+	fixtureDef2.restitution = 0.2f;
 	fixtureDef2.filter.groupIndex = -1;
     
 	bodyDef.type = b2_dynamicBody;
@@ -234,8 +234,16 @@
 
 -(void)update
 {
-
     float body_mass=body->GetMass();
+    float baseSpringForce=15*body_mass;
+    
+    spring0->SetMaxMotorForce( baseSpringForce + (40 * baseSpringForce * powf(spring0->GetJointTranslation(), 2) ) );
+    spring0->SetMotorSpeed( -20 * spring0->GetJointTranslation() );
+    
+    spring1->SetMaxMotorForce( baseSpringForce + (40 * baseSpringForce * powf(spring1->GetJointTranslation(), 2) ) );
+    spring1->SetMotorSpeed( -20 * spring1->GetJointTranslation());
+    
+    /*
     spring0->SetMaxMotorForce(50+abs((800* pow(spring0->GetJointTranslation(),2.0f))));
     
     //spring0->SetMotorSpeed((spring0->GetMotorSpeed() - 10*spring0->GetJointTranslation())*0.4);         
@@ -245,16 +253,16 @@
     
     //  spring1->SetMotorSpeed((spring1->GetMotorSpeed() - 10*spring1->GetJointTranslation())*0.4);    
     spring1->SetMotorSpeed(-10*pow(spring1->GetJointTranslation(),1));    
+    */
     
-    
-    float torque0= 1+(body->GetMass()*4)/raggio0;
+    float torque0= 1+(body->GetMass()*7)/raggio0;
     float speed0=raggio0*6*b2_pi;
     
     motor0->SetMotorSpeed(-speed0);
     motor0->SetMaxMotorTorque(torque0);
     //motor0->SetMaxMotorTorque(50);
     
-    float torque1= 1+(body_mass*4)/raggio0;
+    float torque1= 1+(body_mass*7)/raggio0;
     float speed1=raggio1*6*b2_pi;
 
     motor1->SetMotorSpeed(-speed1);

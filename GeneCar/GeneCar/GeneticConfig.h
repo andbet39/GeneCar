@@ -14,7 +14,7 @@
 #define CROSSOVER_POINT 7
 #define VERT_NUM 8
 #define PERC_MUTAZIONE 20
-#define CAR_DIM 10
+#define CAR_DIM 8
 #define OFFSET 0
 #define PTM_RATIO 32
 

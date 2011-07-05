@@ -99,7 +99,8 @@ enum {
 		myTrack=[[Track alloc]init];
         
         //  [myTrack generaRandom:world];
-        [myTrack generaSaved:world];
+        // [myTrack generaSaved:world];
+        [myTrack generaSavedBox:world];
         
         myLab = [[GeneticLab alloc]init];
         
@@ -134,7 +135,9 @@ enum {
 	glDisableClientState(GL_COLOR_ARRAY);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	
-	//world->DrawDebugData();
+	//
+    
+    //world->DrawDebugData();
     if (myLab->avaible){
 
         [mycar draw];
@@ -176,7 +179,7 @@ enum {
     if(myLab->avaible){
         NSLog(@"testAnotherCar");
         //score definitivo per il cromosoma corrente
-        mycar.cromosome->score=(curr_car_score*100)/curr_car_time;
+        mycar.cromosome->score=curr_car_score;
         
         //[myHud addListScore:mycar.cromosome->score];
         
@@ -210,7 +213,7 @@ enum {
 
 -(void) tick: (ccTime) dt
 {
-	int32 velocityIterations = 8;
+	int32 velocityIterations = 15;
 	int32 positionIterations = 1;
     
 	if (myLab->avaible){
@@ -228,7 +231,7 @@ enum {
         tempo_ferma=0;
     }
     
-    if(tempo_ferma>3){
+    if(tempo_ferma>3.5){
         tempo_ferma=0;
         
         [self testAnotherCar];

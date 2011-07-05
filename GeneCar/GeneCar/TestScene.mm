@@ -8,7 +8,18 @@
 
 #import "TestScene.h"
 
+// enums that will be used as tags
+enum {
+	kTagTileMap = 1,
+	kTagBatchNode = 1,
+	kTagAnimation1 = 1,
+    kTagHudLayer = 2,
+    
+    kTagParallaxNode=1 
+};
+
 @implementation TestScene
+
 
 
 +(CCScene *) scene
@@ -22,10 +33,12 @@
 	// add layer as a child to scene
 	[scene addChild: layer];
     
-    /*HUDLayer * myhud = [HUDLayer node];
-    myhud = [HUDLayer sharedHUDLayer];
-    [scene addChild:myhud z:1];
-	*/
+    HudTestScene *myHud = [HudTestScene node];
+    myHud=[[HudTestScene alloc]init];
+    myHud = [HudTestScene sharedHudTestScene];
+    
+    [scene addChild:myHud z:1];
+	
 	// return the scene
 	return scene;
 }
@@ -36,6 +49,9 @@
 	// Apple recommends to re-assign "self" with the "super" return value
 	if( (self=[super init])) {
 		
+        
+        
+        
 		// enable touches
 		self.isTouchEnabled = YES;
 		
@@ -75,7 +91,7 @@
 		myTrack=[[Track alloc]init];
         
         //  [myTrack generaRandom:world];
-        [myTrack generaSaved:world];
+        [myTrack generaSavedBox :world];
         
     
         GameManager * GM=[GameManager sharedGameManager];
@@ -83,13 +99,13 @@
         
         Cromosome *c=[GM cachedCromo];
         
-        mycar=[[mycar alloc]init];
+        mycar=[[PlayableCar alloc]init];
         
         [mycar generaFromCromosome:c world:world];
 
 
         
-      //  [self initBackground];
+      [self initBackground];
         
         
 		[self schedule: @selector(tick:)];
@@ -106,7 +122,7 @@
 	glDisableClientState(GL_COLOR_ARRAY);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	
-	world->DrawDebugData();
+	//world->DrawDebugData();
         
     [mycar draw];
     
@@ -136,21 +152,61 @@
 
 -(void) tick: (ccTime) dt
 {
-	int32 velocityIterations = 8;
+	int32 velocityIterations = 15;
 	int32 positionIterations = 1;
     
-	//if (myLab->avaible){
+    HudTestScene *myHud = [HudTestScene sharedHudTestScene];
+    
+    if(myHud.freno_btn.active==TRUE){
+        [mycar frena];
+        
+    }else{
+        if(myHud.acceleratore_btn.active==TRUE){
+    
+            [mycar accelera];
+        
+        }
+    }
+    if([myHud reset]){
+        [self resetCar];
+    }
         
         world->Step(dt, velocityIterations, positionIterations);
         [mycar update];
         b2Vec2 pos=[mycar getPosition];
         
         [self setViewpointCenter:ccp((pos.x*PTM_RATIO)-100,pos.y*PTM_RATIO)];
-        
-    //}    
     
     
 }
+
+-(void) resetCar
+{
+    
+   
+    
+        NSLog(@"resetCar");
+        
+        GameManager * GM=[GameManager sharedGameManager];
+        HudTestScene *myHud = [HudTestScene sharedHudTestScene];
+
+    
+        Cromosome *c=[GM cachedCromo];
+
+        
+        [mycar destroy:world];
+        
+        mycar = [[PlayableCar alloc]init];
+        
+        [mycar generaFromCromosome:c world:world];
+        [GM setCurrentCromo:c];
+    [myHud setReset:FALSE];
+    
+        
+    }
+   
+    
+
 
 
 
@@ -161,12 +217,50 @@
     
     ccTexParams params = {GL_LINEAR,GL_LINEAR,GL_REPEAT,GL_REPEAT};
     
-    CCSprite *strada = [CCSprite spriteWithFile:@"backgroundtec.png" rect:CGRectMake(0, 0, 1024*25, 512)];
+    /*CCSprite *strada = [CCSprite spriteWithFile:@"backgroundtec.png" rect:CGRectMake(0, 0, 1024*25, 512)];
     [strada.texture setTexParameters:&params];
     strada.position=ccp(240,100);
     [self addChild:strada z:-1];
-    
-        
+    */
+     
+     
+     CCParallaxNode *parallaxNode=[CCParallaxNode node];
+     
+     [self addChild:parallaxNode z:-10 tag:kTagParallaxNode];
+     
+     CCSprite *cielo = [CCSprite spriteWithFile:@"cielo.png" rect:CGRectMake(0, 0, 1024*5, 512)];
+     [cielo.texture setTexParameters:&params];
+     
+     [parallaxNode addChild:cielo z:0 parallaxRatio:ccp(0.01,1.0) positionOffset:CGPointMake(512,256)];
+     
+     
+     CCSprite *nuvole = [CCSprite spriteWithFile:@"nuvole.png" rect:CGRectMake(0, 0, 1024*5, 512)];
+     [nuvole.texture setTexParameters:&params];
+     nuvole.position=ccp(240,0);
+     
+     [parallaxNode addChild:nuvole z:1 parallaxRatio:ccp(0.05,1.0) positionOffset:CGPointMake(512,256)];
+     
+     
+     CCSprite *montagne = [CCSprite spriteWithFile:@"montagne.png" rect:CGRectMake(0, 0, 1024*10, 512)];
+     [montagne.texture setTexParameters:&params];
+     
+     [parallaxNode addChild:montagne z:2 parallaxRatio:ccp(0.2,1.0) positionOffset:CGPointMake(512,256)];
+     
+     CCSprite *alberi = [CCSprite spriteWithFile:@"alberi.png" rect:CGRectMake(0, 0, 1024*50, 512)];
+     [alberi.texture setTexParameters:&params];
+     alberi.position=ccp(240,0);
+     
+     [parallaxNode addChild:alberi z:3 parallaxRatio:ccp(0.7,1.0) positionOffset:CGPointMake(512,256)];
+     
+     
+     CCSprite *strada = [CCSprite spriteWithFile:@"strada.png" rect:CGRectMake(0, 0, 1024*50, 512)];
+     [strada.texture setTexParameters:&params];
+     strada.position=ccp(240,0);
+     
+     [parallaxNode addChild:strada z:4 parallaxRatio:ccp(1.0,1.0) positionOffset:CGPointMake(512,256)];
+     
+     
+     
 }
 
 

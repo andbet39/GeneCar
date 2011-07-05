@@ -59,7 +59,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HUDLayer);
     [GM setCachedCromo:[GM currentCromo]];
     
     
-	[[CCDirector sharedDirector] replaceScene:[CCTransitionCrossFade transitionWithDuration:0.5f scene:[TestScene node]]];
+	[[CCDirector sharedDirector] replaceScene:[CCTransitionCrossFade transitionWithDuration:0.5f scene:[TestScene scene]]];
 }
 
 
