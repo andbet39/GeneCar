@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "car.h"
+#import "GeneticConfig.h"
 
 @interface PlayableCar : car
 {

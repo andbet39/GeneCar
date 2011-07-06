@@ -8,6 +8,7 @@
 
 #import "PlayableCar.h"
 
+
 @implementation PlayableCar
 
 - (id)init
@@ -24,7 +25,7 @@
 
 
     float body_mass=body->GetMass();
-    float baseSpringForce=15*body_mass;
+    float baseSpringForce= SPRING_BASE_FORCE*body_mass;
     
     spring0->SetMaxMotorForce( baseSpringForce + (40 * baseSpringForce * powf(spring0->GetJointTranslation(), 2) ) );
     spring0->SetMotorSpeed( -20 * spring0->GetJointTranslation() );

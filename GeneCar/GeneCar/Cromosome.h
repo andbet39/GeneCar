@@ -35,7 +35,7 @@
 }
 
 
-- (id) initRandom ;
+-(id)initRandom ;
 -(id)initWithCromosome :(Cromosome *)C;
 -(void)muta;
 
