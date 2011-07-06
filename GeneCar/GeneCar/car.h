@@ -31,6 +31,7 @@
     b2RevoluteJoint *motor0;
     b2RevoluteJoint *motor1;
     
+    b2Vec2 position;
     
     float raggio0;
     float raggio1;
@@ -41,6 +42,8 @@
 
 -(void) generaRandom : (b2World *) world;
 -(void) generaFromCromosome : (Cromosome*)c world:(b2World *) world;
+-(void) setInitPosition:(b2Vec2)pos;
+
 
 
 - (void) destroy : (b2World *) world;

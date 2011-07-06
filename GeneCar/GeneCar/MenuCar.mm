@@ -1,35 +1,30 @@
 //
-//  car.m
+//  MenuCar.m
 //  GeneCar
 //
-//  Created by Andrea Terzani on 29/06/11.
+//  Created by Andrea Terzani on 06/07/11.
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "car.h"
+#import "MenuCar.h"
 
+@implementation MenuCar
+@synthesize scale;
 
-
-
-@implementation car
-
-@synthesize cromosome;
 
 - (id)init
 {
     self = [super init];
     if (self) {
-
-    
-        position.x=10;
-        position.y=5;
+        scale=1.0;
     }
     
     return self;
 }
 
--(void) generaFromCromosome : (Cromosome*)c world:(b2World *) world{
 
+-(void) generaFromCromosome : (Cromosome*)c world:(b2World *) world{
+    
     
     cromosome=c;
     
@@ -72,7 +67,7 @@
         v1=r_vf[i];
         v2+=r_f[i];
         body_vectors[i]=b2Vec2(v1,v2);
-                
+        
         
     }
     
@@ -86,9 +81,9 @@
     float p2_X;
     float p2_Y;
     
-
+    
     // Define the dynamic body.
-
+    
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
     
@@ -111,8 +106,8 @@
     
 	for(int i=0;i<VERT_NUM;i++){
         
-        p0_X=0.0F+OFFSET;
-        p0_Y=0.0F+OFFSET;
+        p0_X=0.0F;
+        p0_Y=0.0F;
         p1_X=(cos(body_vectors[i].y)*body_vectors[i].x)+OFFSET;
         p1_Y=(sin(body_vectors[i].y)*body_vectors[i].x)+OFFSET;
         
@@ -127,9 +122,9 @@
             
         }
         b2Vec2 vert[]={
-            b2Vec2(p0_X,p0_Y),
-            b2Vec2(p1_X,p1_Y),
-            b2Vec2(p2_X,p2_Y),
+            b2Vec2(p0_X*scale,p0_Y*scale),
+            b2Vec2(p1_X*scale,p1_Y*scale),
+            b2Vec2(p2_X*scale,p2_Y*scale),
             
         };
         
@@ -148,33 +143,33 @@
     float rand_ax_ang1=c->angle_wheel0;
     float rand_ax_ang2=c->angle_wheel1;
     
-    p1_X=(cos(body_vectors[rand_vert1].y)*body_vectors[rand_vert1].x)+OFFSET;
-    p1_Y=(sin(body_vectors[rand_vert1].y)*body_vectors[rand_vert1].x)+OFFSET;
+    p1_X=(cos(body_vectors[rand_vert1].y)*body_vectors[rand_vert1].x)*scale+OFFSET;
+    p1_Y=(sin(body_vectors[rand_vert1].y)*body_vectors[rand_vert1].x)*scale+OFFSET;
     
-    dynamicBox.SetAsBox(0.2, 0.15, b2Vec2(p1_X,p1_Y),rand_ax_ang1 );
+    dynamicBox.SetAsBox(0.2*scale, 0.15*scale, b2Vec2(p1_X,p1_Y),rand_ax_ang1 );
 	body->CreateFixture(&fixtureDef);
     
-    p2_X=(cos(body_vectors[rand_vert2].y)*body_vectors[rand_vert2].x)+OFFSET;
-    p2_Y=(sin(body_vectors[rand_vert2].y)*body_vectors[rand_vert2].x)+OFFSET;
+    p2_X=(cos(body_vectors[rand_vert2].y)*body_vectors[rand_vert2].x)*scale+OFFSET;
+    p2_Y=(sin(body_vectors[rand_vert2].y)*body_vectors[rand_vert2].x)*scale+OFFSET;
     
-    dynamicBox.SetAsBox(0.2, 0.15, b2Vec2(p2_X,p2_Y),rand_ax_ang2 );
+    dynamicBox.SetAsBox(0.2*scale, 0.15*scale, b2Vec2(p2_X,p2_Y),rand_ax_ang2 );
     fixtureDef.shape = &dynamicBox;	
     fixtureDef.filter.groupIndex = -1;
-
+    
     body->CreateFixture(&fixtureDef);
     
     
     //CREA ASSI
     asse0=world->CreateBody(&bodyDef);
     
-    dynamicBox.SetAsBox(0.3, 0.1, b2Vec2(p1_X-0.2*cos(rand_ax_ang1)+OFFSET,p1_Y-0.2*sin(rand_ax_ang1)+OFFSET),rand_ax_ang1 );
+    dynamicBox.SetAsBox(0.3*scale, 0.1*scale, b2Vec2(p1_X-0.2*scale*cos(rand_ax_ang1)+OFFSET,p1_Y-0.2*scale*sin(rand_ax_ang1)+OFFSET),rand_ax_ang1 );
     fixtureDef.shape = &dynamicBox;	
     asse0->CreateFixture(&fixtureDef);
     
     b2PrismaticJointDef springDef;
     springDef.Initialize(body,asse0,asse0->GetWorldCenter(),b2Vec2(cos(rand_ax_ang1),sin(rand_ax_ang1)));
-    springDef.lowerTranslation=-0.2;
-    springDef.upperTranslation=0.4;
+    springDef.lowerTranslation=-0.2*scale;
+    springDef.upperTranslation=0.4*scale;
     springDef.enableLimit=true;
     springDef.enableMotor=true;
     
@@ -182,7 +177,7 @@
     
     asse1=world->CreateBody(&bodyDef);
     
-    dynamicBox.SetAsBox(0.3, 0.1, b2Vec2(p2_X-0.2*cos(rand_ax_ang2)+OFFSET,p2_Y-0.2*sin(rand_ax_ang2)+OFFSET),rand_ax_ang2 );
+    dynamicBox.SetAsBox(0.3*scale, 0.1*scale, b2Vec2(p2_X-0.2*scale*cos(rand_ax_ang2)+OFFSET,p2_Y-0.2*scale*sin(rand_ax_ang2)+OFFSET),rand_ax_ang2 );
     fixtureDef.filter.groupIndex = -1;
     fixtureDef.shape = &dynamicBox;	
     asse1   ->CreateFixture(&fixtureDef);
@@ -191,8 +186,8 @@
     
     spring1= (b2PrismaticJoint*) world->CreateJoint(&springDef);
     
-    raggio0=c->radius_wheel0;
-    raggio1=c->radius_wheel1;
+    raggio0=c->radius_wheel0*scale;
+    raggio1=c->radius_wheel1*scale;
     
     //CREA RUOTE
     b2CircleShape circleDef;
@@ -205,7 +200,7 @@
 	fixtureDef2.filter.groupIndex = -1;
     
 	bodyDef.type = b2_dynamicBody;
-	bodyDef.position.Set(asse0->GetWorldCenter().x-0.3*cos(rand_ax_ang1)+OFFSET , asse0->GetWorldCenter().y-0.3*sin(rand_ax_ang1)+OFFSET );
+	bodyDef.position.Set(asse0->GetWorldCenter().x-0.3*scale*cos(rand_ax_ang1)+OFFSET , asse0->GetWorldCenter().y-0.3*scale*sin(rand_ax_ang1)+OFFSET );
     
 	bodyDef.allowSleep = false;
     fixtureDef2.shape = &circleDef;
@@ -215,7 +210,7 @@
     circleDef.m_radius = raggio1;
     
     
-	bodyDef.position.Set(asse1->GetWorldCenter().x-0.3*cos(rand_ax_ang2)+OFFSET, asse1->GetWorldCenter().y-0.3*sin(rand_ax_ang2)+OFFSET );
+	bodyDef.position.Set(asse1->GetWorldCenter().x-0.3*scale*cos(rand_ax_ang2)+OFFSET, asse1->GetWorldCenter().y-0.3*scale*sin(rand_ax_ang2)+OFFSET );
     ruota1 = world->CreateBody(&bodyDef);
     ruota1->CreateFixture(&fixtureDef2);
     
@@ -228,74 +223,24 @@
     
     
     
-
-
+    
+    
 }
 
--(void) setInitPosition:(b2Vec2)pos{
 
-    position.x=pos.x;
-    position.y=pos.y;
-
-}
--(void)update
-{
+-(void) update{
+    
+    
     float body_mass=body->GetMass();
-    float baseSpringForce=SPRING_BASE_FORCE*body_mass;
+    float baseSpringForce= SPRING_BASE_FORCE*body_mass;
     
     spring0->SetMaxMotorForce( baseSpringForce + (40 * baseSpringForce * powf(spring0->GetJointTranslation(), 2) ) );
     spring0->SetMotorSpeed( -20 * spring0->GetJointTranslation() );
     
     spring1->SetMaxMotorForce( baseSpringForce + (40 * baseSpringForce * powf(spring1->GetJointTranslation(), 2) ) );
     spring1->SetMotorSpeed( -20 * spring1->GetJointTranslation());
-    
-   
-    
-    float torque0= 1+(body->GetMass()*10)/raggio0;
-    float speed0=raggio0*5*b2_pi;
-    
-    motor0->SetMotorSpeed(-speed0);
-    motor0->SetMaxMotorTorque(torque0);
-    //motor0->SetMaxMotorTorque(50);
-    
-    float torque1= 1+(body_mass*10)/raggio0;
-    float speed1=raggio1*5*b2_pi;
-
-    motor1->SetMotorSpeed(-speed1);
-    motor1->SetMaxMotorTorque(torque1);
-    //NSLog([NSString stringWithFormat:@"Tq:%f",torque0]);
-    //motor1->SetMaxMotorTorque(50);
-    
-    
 }
-
--(b2Vec2) getPosition{
-
-  return  body->GetPosition();
-
-}
-
-
--(void) destroy : (b2World *)world
-{
-
-   
-    
-    world->DestroyJoint(motor0);
-    world->DestroyJoint(motor1);
-    world->DestroyJoint(spring0);
-    world->DestroyJoint(spring1);
-    world->DestroyBody(body);
-    world->DestroyBody(ruota0);
-    world->DestroyBody(ruota1);
-    world->DestroyBody(asse0);
-    world->DestroyBody(asse1);
-    
-   
-    
-    
-
-}
+/*
 - (void) draw
 {
     b2Vec3 c_carroz=b2Vec3(1.0,1.0,8.0);
@@ -303,36 +248,36 @@
     b2Vec3 c_sosp=b2Vec3(0.05,0.05,0.05);
     
     glLineWidth(1.0f);
-
+    
     
     
     const b2Transform& xfb=body->GetTransform();
-
+    
     for (b2Fixture* f = body->GetFixtureList(); f; f = f->GetNext())
     {
         
         b2PolygonShape* poly = (b2PolygonShape*)f->GetShape();
         int32 vertexCount = poly->m_vertexCount;
-
+        
         b2Vec2 vertices[8];
         CGPoint v[8];
-    
+        
         for (int32 i = 0; i < vertexCount; ++i)
         {
             vertices[i] = b2Mul(xfb, poly->m_vertices[i]);
-            v[i].x=vertices[i].x*PTM_RATIO;
-            v[i].y=vertices[i].y*PTM_RATIO;
+            v[i].x=vertices[i].x*PTM_RATIO*scale;
+            v[i].y=vertices[i].y*PTM_RATIO*scale;
         }
         
         
         glColor4f(c_carroz.x, c_carroz.y, c_carroz.z, 0.5);
         ccDrawFillPoly(v,vertexCount,YES,YES);
-
+        
         
         glColor4f(0.0, 0.0, 1.0, 1.0);
         //glLineWidth(3.0f);
         ccDrawPoly(v,vertexCount,YES);
-   
+        
     }
     
     //DISEGNA ASSI
@@ -351,8 +296,8 @@
         for (int32 i = 0; i < vertexCount; ++i)
         {
             vertices[i] = b2Mul(xfa0, poly->m_vertices[i]);
-            v[i].x=vertices[i].x*PTM_RATIO;
-            v[i].y=vertices[i].y*PTM_RATIO;
+            v[i].x=vertices[i].x*PTM_RATIO*scale;
+            v[i].y=vertices[i].y*PTM_RATIO*scale;
         }
         glColor4f(c_sosp.x, c_sosp.y, c_sosp.z, 0.6);
         
@@ -376,8 +321,8 @@
         for (int32 i = 0; i < vertexCount; ++i)
         {
             vertices[i] = b2Mul(xfa1, poly->m_vertices[i]);
-            v[i].x=vertices[i].x*PTM_RATIO;
-            v[i].y=vertices[i].y*PTM_RATIO;
+            v[i].x=vertices[i].x*PTM_RATIO*scale;
+            v[i].y=vertices[i].y*PTM_RATIO*scale;
         }
         glColor4f(c_sosp.x, c_sosp.y, c_sosp.z, 0.6);
         
@@ -391,7 +336,7 @@
     //FIINE ASSI
     
     
-   
+    
     const b2Transform& xf = ruota0->GetTransform();
     //DISEGNA LE RUOTE
     for (b2Fixture* f = ruota0->GetFixtureList(); f; f = f->GetNext())
@@ -403,20 +348,20 @@
         float32 radius = circle->m_radius;
         b2Vec2 axis = xf.R.col1; 
         b2Vec2 destAx=center+radius*axis;
-
+        
         glColor4f(c_ruote.x, c_ruote.y, c_ruote.z, 0.9);
-        ccDrawFillCircle(ccp(center.x*PTM_RATIO,center.y*PTM_RATIO),radius*PTM_RATIO,atan(axis.y/axis.x), 50,NO,YES);
-
-       // glLineWidth(3.0f);
+        ccDrawFillCircle(ccp(center.x*PTM_RATIO*scale,center.y*PTM_RATIO*scale),radius*PTM_RATIO*scale,atan(axis.y/axis.x), 30,NO,YES);
+        
+        // glLineWidth(3.0f);
         glColor4f(c_ruote.x, c_ruote.y, c_ruote.z, 1.0);
-
-        ccDrawLine(ccp(center.x*PTM_RATIO,center.y*PTM_RATIO), ccp(destAx.x*PTM_RATIO,destAx.y*PTM_RATIO));
-        ccDrawCircle(ccp(center.x*PTM_RATIO,center.y*PTM_RATIO),radius*PTM_RATIO,atan(axis.y/axis.x), 50,NO );
-     
+        
+        ccDrawLine(ccp(center.x*PTM_RATIO*scale,center.y*PTM_RATIO*scale), ccp(destAx.x*PTM_RATIO*scale,destAx.y*PTM_RATIO*scale));
+        ccDrawCircle(ccp(center.x*PTM_RATIO*scale,center.y*PTM_RATIO*scale),radius*PTM_RATIO*scale,atan(axis.y/axis.x), 30,NO );
+        
         
     }
-   const b2Transform&  xf2 = ruota1->GetTransform();
-
+    const b2Transform&  xf2 = ruota1->GetTransform();
+    
     for (b2Fixture* f = ruota1->GetFixtureList(); f; f = f->GetNext())
     {
         
@@ -426,23 +371,25 @@
         float32 radius = circle->m_radius;
         b2Vec2 axis = xf2.R.col1; 
         b2Vec2 destAx=center+radius*axis;
-       
+        
         glColor4f(c_ruote.x, c_ruote.y, c_ruote.z, 0.9);
-        ccDrawFillCircle(ccp(center.x*PTM_RATIO,center.y*PTM_RATIO),radius*PTM_RATIO,atan(axis.y/axis.x), 50,NO,YES);
+        ccDrawFillCircle(ccp(center.x*PTM_RATIO*scale,center.y*PTM_RATIO*scale),radius*PTM_RATIO*scale,atan(axis.y/axis.x), 50,NO,YES);
         
         //glLineWidth(3.0f);
         glColor4f(c_ruote.x, c_ruote.y, c_ruote.z, 1.0);
-
-        ccDrawLine(ccp(center.x*PTM_RATIO,center.y*PTM_RATIO), ccp(destAx.x*PTM_RATIO,destAx.y*PTM_RATIO));
-        ccDrawCircle(ccp(center.x*PTM_RATIO,center.y*PTM_RATIO),radius*PTM_RATIO,atan(axis.y/axis.x), 50,NO );
-            
+        
+        ccDrawLine(ccp(center.x*PTM_RATIO*scale,center.y*PTM_RATIO*scale), ccp(destAx.x*PTM_RATIO*scale,destAx.y*PTM_RATIO*scale));
+        ccDrawCircle(ccp(center.x*PTM_RATIO*scale,center.y*PTM_RATIO*scale),radius*PTM_RATIO*scale,atan(axis.y/axis.x), 50,NO );
+        
     }
-   
+    
     //FINE RUOTE
-
-
+    
+    
     glLineWidth(1.0f);
-
+    
 }
+*/
+
 
 @end

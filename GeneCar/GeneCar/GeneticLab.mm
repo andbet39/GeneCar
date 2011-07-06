@@ -34,6 +34,10 @@
     }
     
 }
+- (Cromosome *) getRandom{
+    Cromosome *C = [[Cromosome alloc]initRandom];  
+    return C;
+}
 
 
 -(Cromosome *) getNextToTest{

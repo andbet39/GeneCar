@@ -28,6 +28,8 @@
 
 - (void) generaPopolazioneRandom;
 - (Cromosome *) getNextToTest;
+- (Cromosome *) getRandom;
+
 - (void) setTested : (Cromosome *)C;
 - (void) Crossover : (Cromosome*)pl1 pl2:(Cromosome*) pl2;
 -(void) evolute;
