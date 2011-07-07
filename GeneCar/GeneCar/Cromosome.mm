@@ -91,6 +91,60 @@
 }
    
 
+- (void) encodeWithCoder:(NSCoder*)encoder {
+    // If parent class also adopts NSCoding, include a call to
+    //[super encodeWithCoder:encoder];
+    
+
+    [encoder encodeInt:ver_wheel0 forKey:@"ver_wheel0"];
+    [encoder encodeInt:ver_wheel1 forKey:@"ver_wheel1"];
+    
+    [encoder encodeFloat:radius_wheel0 forKey:@"radius_wheel0"];
+    [encoder encodeFloat:radius_wheel1 forKey:@"radius_wheel1"];
+
+    [encoder encodeFloat:angle_wheel0 forKey:@"angle_wheel0"];
+    [encoder encodeFloat:angle_wheel1 forKey:@"angle_wheel1"];
+    
+    [encoder encodeFloat:score forKey:@"score"];
+
+    for(int i=0;i<VERT_NUM;i++){
+    
+        CGPoint c=ccp(body_vector[i].x,body_vector[i].y);
+        [encoder encodeCGPoint:c forKey:[NSString stringWithFormat:@"body_vector%d",i]];
+        
+    }
+    
+}
+
+- (id) initWithCoder:(NSCoder*)decoder {
+    if (self = [super init]) {
+        // If parent class also adopts NSCoding, replace [super init]
+        // with [super initWithCoder:decoder] to properly initialize.
+        
+        // NOTE: Decoded objects are auto-released and must be retained
+        ver_wheel0 = [decoder decodeIntForKey:@"ver_wheel0"];
+        ver_wheel1 = [decoder decodeIntForKey:@"ver_wheel1"];
+        
+        angle_wheel0=[decoder decodeFloatForKey:@"angle_wheel0"];
+        angle_wheel1=[decoder decodeFloatForKey:@"angle_wheel1"];
+        
+        radius_wheel0=[decoder decodeFloatForKey:@"radius_wheel0"];
+        radius_wheel1=[decoder decodeFloatForKey:@"radius_wheel1"];
+        score=[decoder decodeFloatForKey:@"score"];
+        
+        for(int i=0;i<VERT_NUM;i++){
+            
+            CGPoint c=[decoder decodeCGPointForKey:[NSString stringWithFormat:@"body_vector%d",i]];
+            
+            body_vector[i].x=c.x;
+            body_vector[i].y=c.y;
+            
+        }
+    
+    }
+    return self;
+}
+
 
 
 @end

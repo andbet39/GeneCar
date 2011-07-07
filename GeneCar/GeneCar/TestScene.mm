@@ -170,6 +170,9 @@ enum {
     if([myHud reset]){
         [self resetCar];
     }
+    if([myHud loadCar]){
+        [self loadCar];
+    }
         
         world->Step(dt, velocityIterations, positionIterations);
         [mycar update];
@@ -205,7 +208,31 @@ enum {
         
     }
    
+-(void) loadCar
+{
     
+    
+    
+    NSLog(@"loadCar");
+    
+    GameManager * GM=[GameManager sharedGameManager];
+    HudTestScene *myHud = [HudTestScene sharedHudTestScene];
+    
+    
+    Cromosome *c=[GM loadCromosomeWithKey:@"NewCromo"];
+    
+    
+    [mycar destroy:world];
+    
+    mycar = [[PlayableCar alloc]init];
+    
+    [mycar generaFromCromosome:c world:world];
+    [GM setCurrentCromo:c];
+    [myHud setLoadCar:FALSE];
+    
+    
+}
+
 
 
 

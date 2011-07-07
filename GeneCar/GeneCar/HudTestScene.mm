@@ -12,7 +12,7 @@
 
 @implementation HudTestScene
 SYNTHESIZE_SINGLETON_FOR_CLASS(HudTestScene);
-@synthesize acceleratore_btn,freno_btn,reset;
+@synthesize acceleratore_btn,freno_btn,reset,loadCar;
 - (id)init
 {
     self = [super init];
@@ -51,10 +51,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HudTestScene);
 		
 		[menuItem2 setColor: ccc3(255,255,255)];
 		[menuItem2 setScale:1.0];
-		menuItem2.position=ccp(0,0);
+		menuItem2.position=ccp(250,300);
+        
+        CCMenuItemFont *menuItem1 = [CCMenuItemFont itemFromString:@"Load" target:self selector:@selector(onLoadCar:)];
 		
-		CCMenu *menu = [CCMenu menuWithItems:menuItem2 ,nil];
-        menu.position=ccp(400,300);
+		[menuItem1 setColor: ccc3(255,255,255)];
+		[menuItem1 setScale:1.0];
+		menuItem1.position=ccp(100,300);
+		
+		CCMenu *menu = [CCMenu menuWithItems:menuItem1 ,menuItem2,nil];
+        menu.position=ccp(0,0);
         
         [self addChild:menu];
     
@@ -69,4 +75,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HudTestScene);
     [self setReset:YES];   
 }
 
+- (void)onLoadCar:(id)sender
+{
+    [ self setLoadCar:YES];    
+}
 @end

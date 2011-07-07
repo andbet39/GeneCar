@@ -24,6 +24,7 @@
     float avgFitness;
     int generation;
     
+    
     int list_y;
     int list_elem;
     int list_x;

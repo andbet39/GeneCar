@@ -36,7 +36,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HUDLayer);
         list_y=290;
         list_x=25;
         
-        CCMenuItemFont *menuItem2 = [CCMenuItemFont itemFromString:@"Copy this" target:self selector:@selector(onCopy:)];
+        CCMenuItemFont *menuItem2 = [CCMenuItemFont itemFromString:@"Save" target:self selector:@selector(onSave:)];
 		
 		[menuItem2 setColor: ccc3(255,255,255)];
 		[menuItem2 setScale:1.0];
@@ -52,11 +52,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HUDLayer);
     return self;
 }
 
-- (void)onCopy:(id)sender
+- (void)onSave:(id)sender
 {
     GameManager *GM= [GameManager sharedGameManager];
     
     [GM setCachedCromo:[GM currentCromo]];
+    
+    [GM saveCromosome:[GM currentCromo] key:@"NewCromo"];
     
     
 	[[CCDirector sharedDirector] replaceScene:[CCTransitionCrossFade transitionWithDuration:0.5f scene:[TestScene scene]]];

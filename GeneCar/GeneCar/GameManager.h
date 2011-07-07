@@ -20,6 +20,11 @@
 
 
 }
+
+-(void)saveCromosome:(Cromosome*)obj key:(NSString*)key;
+
+-(Cromosome*)loadCromosomeWithKey:(NSString*)key;
+
 @property(readwrite) Cromosome * cachedCromo;
 @property(readwrite) Cromosome * currentCromo;
 

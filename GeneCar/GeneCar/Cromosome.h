@@ -13,7 +13,7 @@
 #import "GeneticConfig.h"
 
 
-@interface Cromosome:NSObject 
+@interface Cromosome :NSObject <NSCoding>
 {
 @public
      

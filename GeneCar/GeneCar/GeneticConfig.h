@@ -12,7 +12,7 @@
 #define NUM_POPOLAZIONE 20
 
 #define CROSSOVER_POINT 4
-#define VERT_NUM 6
+#define VERT_NUM 8
 #define PERC_MUTAZIONE 10
 #define CAR_DIM 8
 #define OFFSET 0

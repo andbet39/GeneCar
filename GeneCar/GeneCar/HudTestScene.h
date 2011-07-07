@@ -21,6 +21,7 @@
     CCLabelTTF *scoreLabel;
 
     bool reset;
+    bool loadCar;
     
 
 }
@@ -28,5 +29,6 @@
 @property(nonatomic,retain)  SneakyButton * acceleratore_btn;
 @property(nonatomic,retain)  SneakyButton * freno_btn;
 @property(readwrite) bool reset;
+@property(readwrite) bool loadCar;
 
 @end

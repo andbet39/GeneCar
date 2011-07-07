@@ -21,5 +21,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameManager);
     
     return self;
 }
+-(void)saveCromosome:(Cromosome*)obj key:(NSString *)key
+{
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSData *myEncodedObject = [NSKeyedArchiver archivedDataWithRootObject:obj];
+    
+    
+	[defaults setObject:myEncodedObject forKey:key];
+}
 
+-(Cromosome*)loadCromosomeWithKey:(NSString*)key
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    NSData *myEncodedObject = [defaults objectForKey: key];
+    Cromosome* obj = (Cromosome*)[NSKeyedUnarchiver unarchiveObjectWithData: myEncodedObject];
+    return obj;
+}
 @end
