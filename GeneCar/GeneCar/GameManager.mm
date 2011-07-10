@@ -10,7 +10,7 @@
 
 @implementation GameManager
 SYNTHESIZE_SINGLETON_FOR_CLASS(GameManager);
-@synthesize cachedCromo,currentCromo;
+@synthesize cachedCromo,currentCromo,garageSaveMode;
 
 - (id)init
 {
@@ -21,6 +21,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameManager);
     
     return self;
 }
+
+
+
 -(void)saveCromosome:(Cromosome*)obj key:(NSString *)key
 {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];

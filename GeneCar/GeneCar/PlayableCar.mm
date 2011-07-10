@@ -45,11 +45,11 @@
 -(void) accelera
 {
 
-    motor0->SetMotorSpeed(-8*b2_pi*raggio0);
-    motor0->SetMaxMotorTorque(17);
+    motor0->SetMotorSpeed(-15*b2_pi*raggio0);
+    motor0->SetMaxMotorTorque(30);
     
-    motor1->SetMotorSpeed(-8*b2_pi*raggio1);
-    motor1->SetMaxMotorTorque(17);
+    motor1->SetMotorSpeed(-15*b2_pi*raggio1);
+    motor1->SetMaxMotorTorque(30);
     
 
 }
@@ -57,10 +57,10 @@
 -(void) frena
 {
     motor0->SetMotorSpeed(8*raggio0*b2_pi);
-    motor0->SetMaxMotorTorque(17);
+    motor0->SetMaxMotorTorque(27);
     
     motor1->SetMotorSpeed(8*raggio1*b2_pi);
-    motor1->SetMaxMotorTorque(17);
+    motor1->SetMaxMotorTorque(27);
     
 }
 

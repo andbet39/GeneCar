@@ -9,6 +9,7 @@
 #import "MenuLayer.h"
 #import "HelloWorldLayer.h"
 #import "TestScene.h"
+#import "GarageScene.h"
 @implementation MenuLayer
 
 
@@ -95,26 +96,28 @@
         groundBox.SetAsEdge(b2Vec2(470/PTM_RATIO,170/PTM_RATIO), b2Vec2(470/PTM_RATIO,300/PTM_RATIO));
         groundBody->CreateFixture(&groundFixtureDef);
         
+        GameManager * GM=[GameManager sharedGameManager];
+        Cromosome *C=[[Cromosome alloc]init];
+        
+        if(GM.currentCromo==NULL){
+            
+            myLab = [[GeneticLab alloc]init];
+            C=[myLab getRandom];
+            [GM setCurrentCromo:C];
+            
+        }
+        
+        C=[GM currentCromo];
 
-        myLab = [[GeneticLab alloc]init];
-        
-        
         mycar = [[MenuCar alloc]init];
         
-        b2Vec2 init_position=b2Vec2(320.0/PTM_RATIO,350.0/PTM_RATIO);
-        
+        b2Vec2 init_position=b2Vec2(320.0/PTM_RATIO,320.0/PTM_RATIO);
         
         [mycar setInitPosition:init_position];
-        
         mycar.scale=0.7;
-        
-        Cromosome *C=[myLab getRandom];
-        GameManager * GM=[GameManager sharedGameManager];
-        [GM setCurrentCromo:C];
-        
         [mycar generaFromCromosome:C world:world];
-        
-        
+
+
         simFPSLabel=[CCLabelTTF labelWithString:@"sim FPS. : 0" fontName:@"Marker Felt" fontSize:15];
         simFPSLabel.position=ccp(290,20);
         [self addChild:simFPSLabel];
@@ -136,7 +139,12 @@
 		[menuItem2 setScale:1.0];
 		menuItem2.position=ccp(200,200);
         
-		CCMenu *menu = [CCMenu menuWithItems:menuItem ,menuItem1,menuItem2,nil];
+        CCMenuItemFont *menuItem3 = [CCMenuItemFont itemFromString:@"Garage" target:self selector:@selector(onGarage:)];
+		[menuItem3 setColor: ccc3(255,255,255)];
+		[menuItem3 setScale:1.0];
+		menuItem3.position=ccp(200,100);
+        
+		CCMenu *menu = [CCMenu menuWithItems:menuItem ,menuItem1,menuItem2,menuItem3,nil];
         menu.position=ccp(0,0);
         
         [self addChild:menu];
@@ -175,7 +183,7 @@
         mycar = [[MenuCar alloc]init];
         Cromosome *C=[myLab getRandom];
         mycar.scale=0.7;
-        b2Vec2 init_position=b2Vec2(320.0/PTM_RATIO,350.0/PTM_RATIO);
+        b2Vec2 init_position=b2Vec2(320.0/PTM_RATIO,280.0/PTM_RATIO);
         
         
         [mycar setInitPosition:init_position];
@@ -195,6 +203,13 @@
 	[[CCDirector sharedDirector] replaceScene:[CCTransitionCrossFade transitionWithDuration:0.5f scene:[HelloWorldLayer scene]]];
 }
 
+- (void)onGarage:(id)sender
+{
+    
+    
+    
+	[[CCDirector sharedDirector] replaceScene:[CCTransitionCrossFade transitionWithDuration:0.5f scene:[GarageScene scene]]];
+}
 - (void)onTest:(id)sender
 {
     GameManager * GM=[GameManager sharedGameManager];

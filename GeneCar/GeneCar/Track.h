@@ -15,9 +15,7 @@
     b2Body* groundBody;
 }
 
-- (void) generaRandom : (b2World *)world;
 - (void) draw;
--(void)generaSaved : (b2World *)world;
 -(void)generaSavedBox : (b2World *)world;
 
 @end

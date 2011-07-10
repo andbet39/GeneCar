@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "car.h"
 #import "GeneticConfig.h"
-
+#import "cocos2d.h"
 
 @interface MenuCar : car
 {

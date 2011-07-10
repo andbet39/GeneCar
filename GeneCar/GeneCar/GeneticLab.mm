@@ -8,6 +8,7 @@
 
 #import "GeneticLab.h"
 #import "HUDLayer.h"
+#import "GameManager.h"
 
 @implementation GeneticLab
 
@@ -25,15 +26,27 @@
     return self;
 }
 
+
+//inizializza una popolazione random inserendo per primo il cromosoma selezionato nella schermata principale
 -(void) generaPopolazioneRandom{
 
-    for(int i=0;i<NUM_POPOLAZIONE;i++){
+    GameManager * GM=[GameManager sharedGameManager];
+    
+    
+    
+    for(int i=0;i<NUM_POPOLAZIONE-1;i++){
         Cromosome *C = [[Cromosome alloc]initRandom];  
         [toTest addObject:C];
         [popolazione addObject:C];
     }
     
+    Cromosome *C=[[Cromosome alloc]initWithCromosome:GM.currentCromo];
+    
+    [toTest addObject:C];
+    [popolazione addObject:C];
+    
 }
+
 - (Cromosome *) getRandom{
     Cromosome *C = [[Cromosome alloc]initRandom];  
     return C;
@@ -53,7 +66,9 @@
         avaible=TRUE;
         
 
-    }else{
+    }
+    else
+    {
         avaible=FALSE;
         generation++;
         

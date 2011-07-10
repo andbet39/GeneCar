@@ -13,6 +13,10 @@
 #import "SynthesizeSingleton.h"
 #import "GameManager.h"
 #import "TestScene.h"
+#import "GarageScene.h"
+#import "Garage.h"
+#import "MenuLayer.h"
+
 @implementation HUDLayer
 SYNTHESIZE_SINGLETON_FOR_CLASS(HUDLayer);
 @synthesize score,avgFitness,generation;
@@ -36,14 +40,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HUDLayer);
         list_y=290;
         list_x=25;
         
+        CCMenuItemFont *menuItem1 = [CCMenuItemFont itemFromString:@"Exit" target:self selector:@selector(onExit:)];
+		
+		[menuItem1 setColor: ccc3(255,255,255)];
+		[menuItem1 setScale:1.0];
+		menuItem1.position=ccp(400,100);
+        
         CCMenuItemFont *menuItem2 = [CCMenuItemFont itemFromString:@"Save" target:self selector:@selector(onSave:)];
 		
 		[menuItem2 setColor: ccc3(255,255,255)];
 		[menuItem2 setScale:1.0];
-		menuItem2.position=ccp(0,-90);
+		menuItem2.position=ccp(400,50);
 		
-		CCMenu *menu = [CCMenu menuWithItems:menuItem2 ,nil];
-        menu.position=ccp(400,200);
+		CCMenu *menu = [CCMenu menuWithItems:menuItem1,menuItem2 ,nil];
+        menu.position=ccp(0,0);
         
         [self addChild:menu];
         
@@ -58,12 +68,27 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HUDLayer);
     
     [GM setCachedCromo:[GM currentCromo]];
     
-    [GM saveCromosome:[GM currentCromo] key:@"NewCromo"];
+   /* Garage *mygarage=[[Garage alloc]init];
+    
+    [mygarage.garage addObject:[GM currentCromo]];
+    
+    [mygarage saveGarage];
+    */
+    //[GM saveCromosome:[GM currentCromo] key:@"NewCromo"];
+    [GM setGarageSaveMode:TRUE];
     
     
-	[[CCDirector sharedDirector] replaceScene:[CCTransitionCrossFade transitionWithDuration:0.5f scene:[TestScene scene]]];
+	[[CCDirector sharedDirector] replaceScene:[CCTransitionCrossFade transitionWithDuration:0.5f scene:[GarageScene scene]]];
 }
 
+- (void)onExit:(id)sender
+{
+    GameManager *GM= [GameManager sharedGameManager];
+    
+    [GM setCachedCromo:[GM currentCromo]];
+    
+	[[CCDirector sharedDirector] replaceScene:[CCTransitionCrossFade transitionWithDuration:0.5f scene:[MenuLayer scene]]];
+}
 
 -(void) draw
 {

@@ -17,6 +17,8 @@
     Cromosome * cachedCromo;
     
     Cromosome * currentCromo;
+    
+    bool garageSaveMode;
 
 
 }
@@ -27,5 +29,7 @@
 
 @property(readwrite) Cromosome * cachedCromo;
 @property(readwrite) Cromosome * currentCromo;
+@property(readwrite)bool garageSaveMode;
+
 
 @end

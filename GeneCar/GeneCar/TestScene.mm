@@ -7,7 +7,7 @@
 //
 
 #import "TestScene.h"
-
+#import "MenuLayer.h"
 // enums that will be used as tags
 enum {
 	kTagTileMap = 1,
@@ -170,8 +170,8 @@ enum {
     if([myHud reset]){
         [self resetCar];
     }
-    if([myHud loadCar]){
-        [self loadCar];
+    if([myHud Gomain]){
+        [self goMainMenu];
     }
         
         world->Step(dt, velocityIterations, positionIterations);
@@ -208,28 +208,19 @@ enum {
         
     }
    
--(void) loadCar
+-(void) goMainMenu
 {
-    
-    
-    
-    NSLog(@"loadCar");
-    
-    GameManager * GM=[GameManager sharedGameManager];
     HudTestScene *myHud = [HudTestScene sharedHudTestScene];
+
     
     
-    Cromosome *c=[GM loadCromosomeWithKey:@"NewCromo"];
+    NSLog(@"GoMainMenu");
+    [myHud setGomain:FALSE];
     
     
-    [mycar destroy:world];
-    
-    mycar = [[PlayableCar alloc]init];
-    
-    [mycar generaFromCromosome:c world:world];
-    [GM setCurrentCromo:c];
-    [myHud setLoadCar:FALSE];
-    
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionCrossFade transitionWithDuration:0.5f scene:[MenuLayer scene]]];
+
+
     
 }
 

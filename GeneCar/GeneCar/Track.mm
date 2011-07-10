@@ -11,7 +11,7 @@
 
 #define PTM_RATIO 32
 #define LENGHT 50
-#define SEG_LENGHT 8
+#define SEG_LENGHT 5
 
 @implementation Track
 
@@ -25,104 +25,6 @@
     return self;
 }
 
-- (void) generaRandom : (b2World *)world
-{
-    
-    // Define the ground body.
-    b2BodyDef groundBodyDef;
-    groundBodyDef.position.Set(0, 0); // bottom-left corner
-    
-    // Call the body factory which allocates memory for the ground body
-    // from a pool and creates the ground box shape (also from a pool).
-    // The body is also added to the world.
-     groundBody = world->CreateBody(&groundBodyDef);
-    
-    // Define the ground box shape.
-    b2PolygonShape groundBox;		
-    groundBox.SetAsEdge(b2Vec2(0,1), b2Vec2(15,1));
-    
-    b2FixtureDef groundFixtureDef;
-    
-    groundFixtureDef.friction=0.5f;
-    groundFixtureDef.restitution=0.0f;
-    groundFixtureDef.shape=&groundBox;
-    
-    groundBody->CreateFixture(&groundFixtureDef);
-    NSString* trk=@"track_data[]={";
-
-    float nextH;
-    float H=1;
-    float x=15;
-    for(int i=0;i<LENGHT;i++){
-        nextH=(float)(arc4random()/(RAND_MAX*2.0F)*1.0F)+10/PTM_RATIO;
-        
-        trk=[trk stringByAppendingString:[NSString stringWithFormat:@"%f,",nextH]];
-        
-        //groundBox.SetAsEdge(b2Vec2(x,H), b2Vec2(x+10,nextH));
-        
-        groundBox.SetAsBox(x,H,b2Vec2(x,H),atan(x/H));
-        
-        groundFixtureDef.shape=&groundBox;
-        
-        groundBody->CreateFixture(&groundFixtureDef);
-        H=nextH;
-        x+=10;
-
-    
-    }
-    NSLog(trk);
-
-}
--(void)generaSaved : (b2World *)world
-{
-    float track_data[61]={2.678646,1.263653,0.681356,1.903954,1.776394,3.907021,0.470990,1.360077,2.919796,2.942992,1.637262,1.210257,2.742758,2.292620,3.802434,2.404684,1.245418,1.684128,1.513848,3.659125,3.711491,1.014721,3.257064,1.165604,3.323402,1.163363,1.339856,2.265011,0.114007,1.675083,2.419302,0.145610,0.387978,3.097635,1.328881,1.477847,3.489499,3.298249,0.269095,2.588415,1.740906,1.587320,3.770866,0.277965,1.862542,1.605137,1.953124,2.557082,2.957582,3.339946,3.846536,0.462308,0.920894,1.641378,2.478498,2.754299,3.937238,0.046623,0.037060,1.553602,1.089946,
-    };
-    
-    // Define the ground body.
-    b2BodyDef groundBodyDef;
-    groundBodyDef.position.Set(0, 0); // bottom-left corner
-    
-    // Call the body factory which allocates memory for the ground body
-    // from a pool and creates the ground box shape (also from a pool).
-    // The body is also added to the world.
-    groundBody = world->CreateBody(&groundBodyDef);
-    
-    // Define the ground box shape.
-    b2PolygonShape groundBox;		
-    groundBox.SetAsEdge(b2Vec2(0,1), b2Vec2(15,1));
-    
-    b2FixtureDef groundFixtureDef;
-    groundFixtureDef.density=1.0f;
-    groundFixtureDef.friction=0.5f;
-    groundFixtureDef.restitution=0.01f;
-    groundFixtureDef.shape=&groundBox;
-    
-    groundBody->CreateFixture(&groundFixtureDef);
-    NSString* trk=@"track_data[]={";
-    
-    float nextH;
-    float H=1;
-    float x=15;
-    for(int i=0;i<60;i++){
-        nextH=track_data[i];
-        
-        trk=[trk stringByAppendingString:[NSString stringWithFormat:@"%f,",nextH]];
-        
-        groundBox.SetAsEdge(b2Vec2(x,H), b2Vec2(x+8,nextH));
-        
-        //groundBox.SetAsBox(x,H,b2Vec2(x,H),atan(x/H));
-        
-        groundFixtureDef.shape=&groundBox;
-        
-        groundBody->CreateFixture(&groundFixtureDef);
-        H=nextH;
-        x+=8;
-        
-        
-    }
-    NSLog(trk);
-    
-}
 
 -(void)generaSavedBox : (b2World *)world
 {
@@ -162,6 +64,7 @@
     float nextH;
     float H=1;
     float x=15;
+    
     for(int i=0;i<60;i++){
         nextH=track_data[i];
         
@@ -184,7 +87,7 @@
         
         groundBody->CreateFixture(&groundFixtureDef);
         H=nextH;
-        x+=8;
+        x+=SEG_LENGHT;
         
         
     }

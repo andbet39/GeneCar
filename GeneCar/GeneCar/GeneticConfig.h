@@ -19,8 +19,8 @@
 #define PTM_RATIO 32
 
 
-#define V_ITERATION 10
-#define P_ITERATION 2
+#define V_ITERATION 15
+#define P_ITERATION 4
 
 
 #define SPRING_BASE_FORCE 80

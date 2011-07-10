@@ -94,7 +94,9 @@ enum {
         m_debugDraw->SetFlags(flags);		
 
         
-      
+        HUDLayer *myHud = [HUDLayer sharedHUDLayer];
+        
+        [myHud init];
         
 		myTrack=[[Track alloc]init];
         
@@ -179,7 +181,7 @@ enum {
     if(myLab->avaible){
         NSLog(@"testAnotherCar");
         //score definitivo per il cromosoma corrente
-        mycar.cromosome->score=curr_car_score;
+        mycar.cromosome->score=curr_car_score+(curr_car_score/curr_car_time);
         
         //[myHud addListScore:mycar.cromosome->score];
         
