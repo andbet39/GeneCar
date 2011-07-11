@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>track_num</key>
+	<integer>2</integer>
+	<key>tracks_names</key>
+	<array>
+		<string>SuperJump</string>
+		<string>SpeedWay</string>
+	</array>
+</dict>
+</plist>

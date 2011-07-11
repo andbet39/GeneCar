@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>track_svg_path</key>
+	<string>m 0,295.75634 20001.02,-8.08122</string>
+	<key>track_name</key>
+	<string>Super SpeedWay</string>
+	<key>gold_time</key>
+	<string>30.1</string>
+	<key>silver_time</key>
+	<string>31.5</string>
+	<key>bronze_time</key>
+	<string>34.0</string>
+</dict>
+</plist>
