@@ -111,7 +111,7 @@
                 groundBody->CreateFixture(&groundFixtureDef);
             }
         }
-        GeneticLab * myLab = [[GeneticLab alloc]init];
+        //GeneticLab * myLab = [[GeneticLab alloc]init];
         
         //CREA il menu
         CCMenu *menu = [CCMenu menuWithItems:nil];

@@ -27,6 +27,11 @@
     car * mycar;
     Track *myTrack;
     
+    b2Vec2 pos;
+    
+    
+    float best_score;
+    
     CCLabelTTF *score_Label;
     GeneticLab *myLab;
     

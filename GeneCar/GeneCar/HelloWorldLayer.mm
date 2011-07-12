@@ -70,7 +70,7 @@ enum {
 		
 		// Define the gravity vector.
 		b2Vec2 gravity;
-		gravity.Set(0.0f, -10.0f);
+		gravity.Set(0.0f, -GRAVITY);
 		
 		// Do we want to let bodies sleep?
 		// This will speed up the physics simulation
@@ -98,11 +98,20 @@ enum {
         
         [myHud init];
         
-		myTrack=[[Track alloc]init];
-        
-        //  [myTrack generaRandom:world];
-        // [myTrack generaSaved:world];
-        [myTrack generaSavedBox:world];
+        GameManager * GM=[GameManager sharedGameManager];
+
+		if(GM.selected_track!=NULL){
+            
+            NSString * strplist=[NSString stringWithFormat:@"%@.plist",GM.selected_track];
+            
+            myTrack=[[Track alloc]initFromPlist:strplist world:world];
+        }else
+        {
+            myTrack=[[Track alloc]initFromPlist:@"superJump.plist" world:world];
+            
+            
+        }
+
         
         myLab = [[GeneticLab alloc]init];
         
@@ -114,7 +123,6 @@ enum {
         Cromosome *C=[myLab getNextToTest];
         
         [mycar generaFromCromosome:C world:world];
-        GameManager * GM=[GameManager sharedGameManager];
         [GM setCurrentCromo:C];
         
        // [self addChild:mycar];
@@ -141,6 +149,7 @@ enum {
     
     //world->DrawDebugData();
     if (myLab->avaible){
+        [self setViewpointCenter:ccp((pos.x*PTM_RATIO),pos.y*PTM_RATIO)];
 
         [mycar draw];
     }
@@ -160,12 +169,12 @@ enum {
     
     CGSize winSize = [[CCDirector sharedDirector] winSize];
     
-    int x = MAX(position.x, winSize.width / 2);
+    int x = MAX(position.x+100, winSize.width / 2-100);
     // int y = MAX(position.y, winSize.height / 2);
     int y=winSize.height/2;
     CGPoint actualPosition = ccp(x, y);
     
-    CGPoint centerOfView = ccp(winSize.width/2-150, winSize.height/2);
+    CGPoint centerOfView = ccp(winSize.width/2, winSize.height/2);
     CGPoint viewPoint = ccpSub(centerOfView, actualPosition);
     
     self.position = viewPoint;
@@ -176,12 +185,22 @@ enum {
 -(void) testAnotherCar
 {
     
-    HUDLayer *myHud = [HUDLayer sharedHUDLayer];
 
     if(myLab->avaible){
+        
+        GameManager * GM=[GameManager sharedGameManager];
+        HUDLayer *myHud = [HUDLayer sharedHUDLayer];
+
+        
         NSLog(@"testAnotherCar");
         //score definitivo per il cromosoma corrente
-        mycar.cromosome->score=curr_car_score+(curr_car_score/curr_car_time);
+        mycar.cromosome->score=curr_car_score*10+(curr_car_score/curr_car_time);
+        
+        if(mycar.cromosome->score > best_score){
+        
+            Cromosome *C=[[Cromosome alloc]initWithCromosome:mycar.cromosome];
+            [GM setBestEver:C];
+        }
         
         //[myHud addListScore:mycar.cromosome->score];
         
@@ -192,23 +211,24 @@ enum {
         Cromosome *C=[myLab getNextToTest];
         
         [mycar generaFromCromosome:C world:world];
-        GameManager * GM=[GameManager sharedGameManager];
         [GM setCurrentCromo:C];
     
+    
+        tempo_ferma=0;
+        curr_car_time=0;
+        curr_car_score=0;
+        
+        
+        //UPDATE THE HUD LAYER 
+        
+        [myHud setScore:curr_car_score];
+        [myHud setAvgFitness:[myLab fitnessmedia]];
+        [myHud setGeneration:myLab->generation];
+    
+    
     }
-    tempo_ferma=0;
-    curr_car_time=0;
-    curr_car_score=0;
-    
-    //UPDATE THE HUD LAYER 
-    
-    [myHud setScore:curr_car_score];
-    [myHud setAvgFitness:[myLab fitnessmedia]];
-    [myHud setGeneration:myLab->generation];
     
     
-    
-     
 }
 
 
@@ -219,21 +239,22 @@ enum {
 	int32 positionIterations = P_ITERATION;
     
 	if (myLab->avaible){
-        
-        world->Step(dt, velocityIterations, positionIterations);
+
+        world->Step(dt*TIME_MULTIPLIER, velocityIterations, positionIterations);
         [mycar update];
+
         curr_car_time+=dt;
-        b2Vec2 pos=[mycar getPosition];
+         pos=[mycar getPosition];
     
     
-    if(last_x-0.08<pos.x && last_x+0.08>pos.x){
+    if(last_x-0.06<pos.x && last_x+0.06>pos.x){
         tempo_ferma+=dt;
         
     }else{
         tempo_ferma=0;
     }
     
-    if(tempo_ferma>3.5){
+    if(tempo_ferma>3.0){
         tempo_ferma=0;
         
         [self testAnotherCar];
@@ -255,7 +276,6 @@ enum {
     last_x=pos.x;
 
     
-    [self setViewpointCenter:ccp((pos.x*PTM_RATIO)-100,pos.y*PTM_RATIO)];
     
     //UPDATE THE HUD LAYER 
     HUDLayer *myHud = [HUDLayer sharedHUDLayer];

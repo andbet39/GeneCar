@@ -62,7 +62,7 @@ enum {
 		
 		// Define the gravity vector.
 		b2Vec2 gravity;
-		gravity.Set(0.0f, -10.0f);
+		gravity.Set(0.0f, -GRAVITY);
 		
 		// Do we want to let bodies sleep?
 		// This will speed up the physics simulation
@@ -86,15 +86,24 @@ enum {
         m_debugDraw->SetFlags(flags);		
         
         
+        GameManager * GM=[GameManager sharedGameManager];
+
+        if(GM.selected_track!=NULL){
+            
+            NSString * strplist=[NSString stringWithFormat:@"%@.plist",GM.selected_track];
+            
+            myTrack=[[Track alloc]initFromPlist:strplist world:world];
+        }else
+        {
+            myTrack=[[Track alloc]initFromPlist:@"superJump.plist" world:world];
+
         
-        
-		myTrack=[[Track alloc]init];
+        }
         
         //  [myTrack generaRandom:world];
-        [myTrack generaSavedBox :world];
+        //[myTrack generaFromSvg :world];
         
     
-        GameManager * GM=[GameManager sharedGameManager];
         
         
         Cromosome *c=[GM cachedCromo];
@@ -138,12 +147,12 @@ enum {
     
     CGSize winSize = [[CCDirector sharedDirector] winSize];
     
-    int x = MAX(position.x, winSize.width / 2);
+    int x = MAX(position.x+100, winSize.width / 2-100);
     // int y = MAX(position.y, winSize.height / 2);
     int y=winSize.height/2;
     CGPoint actualPosition = ccp(x, y);
     
-    CGPoint centerOfView = ccp(winSize.width/2-150, winSize.height/2);
+    CGPoint centerOfView = ccp(winSize.width/2, winSize.height/2);
     CGPoint viewPoint = ccpSub(centerOfView, actualPosition);
     
     self.position = viewPoint;
@@ -174,11 +183,13 @@ enum {
         [self goMainMenu];
     }
         
+        
         world->Step(dt, velocityIterations, positionIterations);
-        [mycar update];
+    [mycar update];
+
         b2Vec2 pos=[mycar getPosition];
         
-        [self setViewpointCenter:ccp((pos.x*PTM_RATIO)-100,pos.y*PTM_RATIO)];
+        [self setViewpointCenter:ccp((pos.x*PTM_RATIO),pos.y*PTM_RATIO)];
     
     
 }
@@ -246,32 +257,32 @@ enum {
      
      [self addChild:parallaxNode z:-10 tag:kTagParallaxNode];
      
-     CCSprite *cielo = [CCSprite spriteWithFile:@"cielo.png" rect:CGRectMake(0, 0, 1024*5, 512)];
+     CCSprite *cielo = [CCSprite spriteWithFile:@"cielo.png" rect:CGRectMake(0, 0, 1024*2, 512)];
      [cielo.texture setTexParameters:&params];
      
      [parallaxNode addChild:cielo z:0 parallaxRatio:ccp(0.01,1.0) positionOffset:CGPointMake(512,256)];
      
      
-     CCSprite *nuvole = [CCSprite spriteWithFile:@"nuvole.png" rect:CGRectMake(0, 0, 1024*5, 512)];
+     CCSprite *nuvole = [CCSprite spriteWithFile:@"nuvole.png" rect:CGRectMake(0, 0, 1024*2, 512)];
      [nuvole.texture setTexParameters:&params];
      nuvole.position=ccp(240,0);
      
      [parallaxNode addChild:nuvole z:1 parallaxRatio:ccp(0.05,1.0) positionOffset:CGPointMake(512,256)];
      
      
-     CCSprite *montagne = [CCSprite spriteWithFile:@"montagne.png" rect:CGRectMake(0, 0, 1024*10, 512)];
+     CCSprite *montagne = [CCSprite spriteWithFile:@"montagne.png" rect:CGRectMake(0, 0, 1024*7, 512)];
      [montagne.texture setTexParameters:&params];
      
      [parallaxNode addChild:montagne z:2 parallaxRatio:ccp(0.2,1.0) positionOffset:CGPointMake(512,256)];
      
-     CCSprite *alberi = [CCSprite spriteWithFile:@"alberi.png" rect:CGRectMake(0, 0, 1024*50, 512)];
+     CCSprite *alberi = [CCSprite spriteWithFile:@"alberi.png" rect:CGRectMake(0, 0, 1024*35, 512)];
      [alberi.texture setTexParameters:&params];
      alberi.position=ccp(240,0);
      
      [parallaxNode addChild:alberi z:3 parallaxRatio:ccp(0.7,1.0) positionOffset:CGPointMake(512,256)];
      
      
-     CCSprite *strada = [CCSprite spriteWithFile:@"strada.png" rect:CGRectMake(0, 0, 1024*50, 512)];
+     CCSprite *strada = [CCSprite spriteWithFile:@"strada.png" rect:CGRectMake(0, 0, 1024*40, 512)];
      [strada.texture setTexParameters:&params];
      strada.position=ccp(240,0);
      

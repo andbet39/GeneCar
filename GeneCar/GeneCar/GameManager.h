@@ -18,6 +18,13 @@
     
     Cromosome * currentCromo;
     
+    Cromosome *bestEver;
+    
+    
+    NSString * selected_track;
+    
+    NSString *nextAction;
+    
     bool garageSaveMode;
 
 
@@ -28,7 +35,10 @@
 -(Cromosome*)loadCromosomeWithKey:(NSString*)key;
 
 @property(readwrite) Cromosome * cachedCromo;
+@property (nonatomic,retain)Cromosome * bestEver;
 @property(readwrite) Cromosome * currentCromo;
+@property(readwrite) NSString * selected_track;
+@property(readwrite) NSString * nextAction;
 @property(readwrite)bool garageSaveMode;
 
 

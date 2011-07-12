@@ -22,9 +22,9 @@
 
     @public int tested;
     @public BOOL avaible;
+    
 
 }
-
 
 - (void) generaPopolazioneRandom;
 - (Cromosome *) getNextToTest;

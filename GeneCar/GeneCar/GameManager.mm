@@ -10,7 +10,7 @@
 
 @implementation GameManager
 SYNTHESIZE_SINGLETON_FOR_CLASS(GameManager);
-@synthesize cachedCromo,currentCromo,garageSaveMode;
+@synthesize cachedCromo,currentCromo,garageSaveMode,selected_track,nextAction,bestEver;
 
 - (id)init
 {

@@ -50,7 +50,7 @@
     if(self){
         for(int i=0;i<VERT_NUM;i++){
         
-            body_vector[i].y=(float)(arc4random()/(RAND_MAX*2.0F)*360.0F)+0.5F;
+            body_vector[i].y=(float)(arc4random()/(RAND_MAX*2.0F)*360.0F)+1.0F;
             body_vector[i].x=(float)(arc4random()/(RAND_MAX*2.0F)*2.0F)+0.2f;
         
         }

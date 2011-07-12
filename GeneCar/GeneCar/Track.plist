@@ -3,11 +3,12 @@
 <plist version="1.0">
 <dict>
 	<key>track_num</key>
-	<integer>2</integer>
+	<integer>3</integer>
 	<key>tracks_names</key>
 	<array>
 		<string>SuperJump</string>
 		<string>SpeedWay</string>
+		<string>Hills</string>
 	</array>
 </dict>
 </plist>

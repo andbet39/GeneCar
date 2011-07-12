@@ -52,7 +52,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HUDLayer);
 		[menuItem2 setScale:1.0];
 		menuItem2.position=ccp(400,50);
 		
-		CCMenu *menu = [CCMenu menuWithItems:menuItem1,menuItem2 ,nil];
+        
+        CCMenuItemFont *menuItem3 = [CCMenuItemFont itemFromString:@"Save Best" target:self selector:@selector(onSaveBest:)];
+		
+		[menuItem3 setColor: ccc3(255,255,255)];
+		[menuItem3 setScale:1.0];
+		menuItem3.position=ccp(400,150);
+        
+        
+		CCMenu *menu = [CCMenu menuWithItems:menuItem1,menuItem2,menuItem3 ,nil];
         menu.position=ccp(0,0);
         
         [self addChild:menu];
@@ -68,18 +76,26 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HUDLayer);
     
     [GM setCachedCromo:[GM currentCromo]];
     
-   /* Garage *mygarage=[[Garage alloc]init];
-    
-    [mygarage.garage addObject:[GM currentCromo]];
-    
-    [mygarage saveGarage];
-    */
-    //[GM saveCromosome:[GM currentCromo] key:@"NewCromo"];
     [GM setGarageSaveMode:TRUE];
     
     
 	[[CCDirector sharedDirector] replaceScene:[CCTransitionCrossFade transitionWithDuration:0.5f scene:[GarageScene scene]]];
 }
+
+- (void)onSaveBest:(id)sender
+{
+    GameManager *GM= [GameManager sharedGameManager];
+    
+    [GM setCachedCromo:[GM bestEver]];
+    [GM setCurrentCromo:[GM bestEver]];
+    
+    
+    [GM setGarageSaveMode:TRUE];
+    
+    
+	[[CCDirector sharedDirector] replaceScene:[CCTransitionCrossFade transitionWithDuration:0.5f scene:[GarageScene scene]]];
+}
+
 
 - (void)onExit:(id)sender
 {

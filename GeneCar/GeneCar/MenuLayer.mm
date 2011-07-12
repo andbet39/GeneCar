@@ -10,6 +10,7 @@
 #import "HelloWorldLayer.h"
 #import "TestScene.h"
 #import "GarageScene.h"
+#import "SelectTrackScene.h"
 @implementation MenuLayer
 
 
@@ -142,9 +143,17 @@
         CCMenuItemFont *menuItem3 = [CCMenuItemFont itemFromString:@"Garage" target:self selector:@selector(onGarage:)];
 		[menuItem3 setColor: ccc3(255,255,255)];
 		[menuItem3 setScale:1.0];
-		menuItem3.position=ccp(200,100);
+		menuItem3.position=ccp(300,100);
         
-		CCMenu *menu = [CCMenu menuWithItems:menuItem ,menuItem1,menuItem2,menuItem3,nil];
+        
+        
+        CCMenuItemFont *menuItem4 = [CCMenuItemFont itemFromString:@"Race" target:self selector:@selector(onRace:)];
+		[menuItem4 setColor: ccc3(255,255,255)];
+		[menuItem4 setScale:1.0];
+		menuItem4.position=ccp(300,50);
+        
+        
+		CCMenu *menu = [CCMenu menuWithItems:menuItem ,menuItem1,menuItem2,menuItem3,menuItem4,nil];
         menu.position=ccp(0,0);
         
         [self addChild:menu];
@@ -197,10 +206,12 @@
     
     - (void)onGenetic:(id)sender
     {
-        
+        GameManager * GM=[GameManager sharedGameManager];
+
+        [GM setNextAction:@"EVOLVI"];
+
     
-    
-	[[CCDirector sharedDirector] replaceScene:[CCTransitionCrossFade transitionWithDuration:0.5f scene:[HelloWorldLayer scene]]];
+	[[CCDirector sharedDirector] replaceScene:[CCTransitionCrossFade transitionWithDuration:0.5f scene:[SelectTrackScene scene]]];
 }
 
 - (void)onGarage:(id)sender
@@ -209,6 +220,17 @@
     
     
 	[[CCDirector sharedDirector] replaceScene:[CCTransitionCrossFade transitionWithDuration:0.5f scene:[GarageScene scene]]];
+}
+- (void)onRace:(id)sender
+{
+    
+    GameManager * GM=[GameManager sharedGameManager];
+    
+    [GM setCachedCromo:[GM currentCromo]];
+    [GM setNextAction:@"RACE"];
+    
+    
+	[[CCDirector sharedDirector] replaceScene:[CCTransitionCrossFade transitionWithDuration:0.5f scene:[SelectTrackScene scene]]];
 }
 - (void)onTest:(id)sender
 {

@@ -11,17 +11,19 @@
 
 #define NUM_POPOLAZIONE 20
 
-#define CROSSOVER_POINT 4
+#define CROSSOVER_POINT 8
 #define VERT_NUM 8
 #define PERC_MUTAZIONE 10
 #define CAR_DIM 8
 #define OFFSET 0
 #define PTM_RATIO 32
 
+#define GRAVITY 12
 
 #define V_ITERATION 15
-#define P_ITERATION 4
+#define P_ITERATION 1
 
+#define TIME_MULTIPLIER 1.0
 
-#define SPRING_BASE_FORCE 80
+#define SPRING_BASE_FORCE 50
 #endif
