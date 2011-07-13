@@ -17,6 +17,8 @@
     CCLabelTTF *scoreLabel;
     CCLabelTTF *generLabel;
     CCLabelTTF *avgLabel;
+    CCLabelTTF *lastScoreLabel;
+    
     
     NSMutableArray *list_label;
     
@@ -33,6 +35,7 @@
 @property(readwrite) float score;
 @property(readwrite) int generation;
 @property(readwrite) float avgFitness;
+@property(readwrite) float lastScore;
 
 - (void)addListScore:(float) score;
 

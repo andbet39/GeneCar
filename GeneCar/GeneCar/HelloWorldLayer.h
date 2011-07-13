@@ -32,7 +32,6 @@
     
     float best_score;
     
-    CCLabelTTF *score_Label;
     GeneticLab *myLab;
     
     float tempo_ferma;

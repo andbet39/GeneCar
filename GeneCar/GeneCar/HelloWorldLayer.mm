@@ -85,21 +85,13 @@ enum {
 		m_debugDraw = new GLESDebugDraw( PTM_RATIO );
 		world->SetDebugDraw(m_debugDraw);
 		
-		uint32 flags = 0;
-		flags += b2DebugDraw::e_shapeBit;
-//		flags += b2DebugDraw::e_jointBit;
-//		flags += b2DebugDraw::e_aabbBit;
-//		flags += b2DebugDraw::e_pairBit;
-//		flags += b2DebugDraw::e_centerOfMassBit;
-        m_debugDraw->SetFlags(flags);		
-
         
         HUDLayer *myHud = [HUDLayer sharedHUDLayer];
         
         [myHud init];
         
         GameManager * GM=[GameManager sharedGameManager];
-
+        
 		if(GM.selected_track!=NULL){
             
             NSString * strplist=[NSString stringWithFormat:@"%@.plist",GM.selected_track];
@@ -111,27 +103,29 @@ enum {
             
             
         }
-
+        
         
         myLab = [[GeneticLab alloc]init];
         
         [myLab generaPopolazioneRandom];
-     
-        mycar = [[car alloc]init];
         
+        mycar = [[car alloc]init];
+        best_score=0;
+        tempo_ferma=0;
+        curr_car_time=0;
+        curr_car_score=0;
+        last_x=0;
         
         Cromosome *C=[myLab getNextToTest];
         
         [mycar generaFromCromosome:C world:world];
         [GM setCurrentCromo:C];
         
-       // [self addChild:mycar];
-        
         [self initBackground];
-
         
 		[self schedule: @selector(tick:)];
-	
+        [self schedule:@selector(genUpdate:) interval:0.1];
+
     }
 	return self;
 }
@@ -150,7 +144,7 @@ enum {
     //world->DrawDebugData();
     if (myLab->avaible){
         [self setViewpointCenter:ccp((pos.x*PTM_RATIO),pos.y*PTM_RATIO)];
-
+        
         [mycar draw];
     }
     [myTrack draw];
@@ -159,7 +153,7 @@ enum {
 	glEnable(GL_TEXTURE_2D);
 	glEnableClientState(GL_COLOR_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
+    
 }
 
 
@@ -185,120 +179,115 @@ enum {
 -(void) testAnotherCar
 {
     
-
+    
     if(myLab->avaible){
         
         GameManager * GM=[GameManager sharedGameManager];
         HUDLayer *myHud = [HUDLayer sharedHUDLayer];
-
+        
         
         NSLog(@"testAnotherCar");
         //score definitivo per il cromosoma corrente
-        mycar.cromosome->score=curr_car_score*10+(curr_car_score/curr_car_time);
+        mycar.cromosome->score=curr_car_score+(curr_car_score/curr_car_time);
+        [myHud setLastScore:curr_car_score+(curr_car_score/curr_car_time)];
         
-        if(mycar.cromosome->score > best_score){
-        
-            Cromosome *C=[[Cromosome alloc]initWithCromosome:mycar.cromosome];
-            [GM setBestEver:C];
-        }
-        
-        //[myHud addListScore:mycar.cromosome->score];
-        
-        [myLab setTested:mycar.cromosome];
-        [mycar destroy:world];
-    
-        mycar = [[car alloc]init];
-        Cromosome *C=[myLab getNextToTest];
-        
-        [mycar generaFromCromosome:C world:world];
-        [GM setCurrentCromo:C];
-    
-    
         tempo_ferma=0;
         curr_car_time=0;
         curr_car_score=0;
+        last_x=0;
+        
+        if(mycar.cromosome->score > best_score){
+            
+            Cromosome *C=[[Cromosome alloc]initWithCromosome:mycar.cromosome];
+            [GM setBestEver:C];
+            best_score=mycar.cromosome->score;
+        }
+        
+        [myLab setTested:mycar.cromosome];
+        [mycar destroy:world];
+        
+        mycar = [[car alloc]init];
+        Cromosome *C=[myLab getNextToTest];
         
         
-        //UPDATE THE HUD LAYER 
         
-        [myHud setScore:curr_car_score];
+        
+        [myHud setScore:curr_car_score+(curr_car_score/curr_car_time)];
         [myHud setAvgFitness:[myLab fitnessmedia]];
         [myHud setGeneration:myLab->generation];
-    
-    
+        
+        [mycar generaFromCromosome:C world:world];
+        
+        [GM setCurrentCromo:C];
+        
+        
+        
+        
     }
     
     
 }
 
+-(void) genUpdate: (ccTime) dt
+{
 
+	
+    
+	if (myLab->avaible){
+        
+        
+        
+        
+        if(pos.x>last_x && pos.x-10>curr_car_score){
+            curr_car_score=pos.x-10;
+            
+        }
+        
+        
+        if(pos.x>=205){
+            tempo_ferma=0;
+            
+            [self testAnotherCar];
+            
+        }
+        
+        
+        if(last_x-STOP_LIMIT<pos.x && last_x+STOP_LIMIT>pos.x){
+            tempo_ferma+=dt;
+            
+        }else{
+            tempo_ferma=0;
+        }
+        
+        if(tempo_ferma>3.0){
+            tempo_ferma=0;
+            
+            [self testAnotherCar];
+            
+        }
+        
+        last_x=pos.x;
+        
+     //UPDATE THE HUD LAYER 
+        HUDLayer *myHud = [HUDLayer sharedHUDLayer];
+        
+        [myHud setScore:curr_car_score+(curr_car_score/curr_car_time)];
+        
+        
+    } 
+
+}
 
 -(void) tick: (ccTime) dt
 {
-	int32 velocityIterations = V_ITERATION;
-	int32 positionIterations = P_ITERATION;
-    
-	if (myLab->avaible){
+   
+    curr_car_time+=dt;
+    world->Step(dt*TIME_MULTIPLIER, V_ITERATION, P_ITERATION);
+    [mycar update];
+    pos=[mycar getPosition];
 
-        world->Step(dt*TIME_MULTIPLIER, velocityIterations, positionIterations);
-        [mycar update];
-
-        curr_car_time+=dt;
-         pos=[mycar getPosition];
-    
-    
-    if(last_x-0.06<pos.x && last_x+0.06>pos.x){
-        tempo_ferma+=dt;
-        
-    }else{
-        tempo_ferma=0;
-    }
-    
-    if(tempo_ferma>3.0){
-        tempo_ferma=0;
-        
-        [self testAnotherCar];
-
-    }
-    
-    if(pos.x>last_x && pos.x-10>curr_car_score){
-        curr_car_score=pos.x-10;
-    }
-    
-    if(pos.x>=200){
-        tempo_ferma=0;
-        [self testAnotherCar];
-
-    }
-    
-    
-    
-    last_x=pos.x;
-
-    
-    
-    //UPDATE THE HUD LAYER 
-    HUDLayer *myHud = [HUDLayer sharedHUDLayer];
-    
-    [myHud setScore:curr_car_score];
-    
-    
-    }    
-    
-    
 }
 
-- (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-{
-	//Add a new body/atlas sprite at the touched location
-	for( UITouch *touch in touches ) {
-		CGPoint location = [touch locationInView: [touch view]];
-		
-		location = [[CCDirector sharedDirector] convertToGL: location];
-		
-		//[self testAnotherCar];
-	}
-}
 
 
 -(void) initBackground
@@ -312,48 +301,6 @@ enum {
     strada.position=ccp(240,100);
     [self addChild:strada z:-1];
     
-    /*
-    ccTexParams params = {GL_LINEAR,GL_LINEAR,GL_REPEAT,GL_REPEAT};
-    
-    
-    CCParallaxNode *parallaxNode=[CCParallaxNode node];
-    
-    [self addChild:parallaxNode z:-10 tag:kTagParallaxNode];
-    
-    CCSprite *cielo = [CCSprite spriteWithFile:@"cielo.png" rect:CGRectMake(0, 0, 1024*5, 512)];
-    [cielo.texture setTexParameters:&params];
-    
-    [parallaxNode addChild:cielo z:0 parallaxRatio:ccp(0.01,1.0) positionOffset:CGPointMake(512,256)];
-    
-    
-    CCSprite *nuvole = [CCSprite spriteWithFile:@"nuvole.png" rect:CGRectMake(0, 0, 1024*5, 512)];
-    [nuvole.texture setTexParameters:&params];
-    nuvole.position=ccp(240,0);
-    
-    [parallaxNode addChild:nuvole z:1 parallaxRatio:ccp(0.05,1.0) positionOffset:CGPointMake(512,256)];
-    
-    
-    CCSprite *montagne = [CCSprite spriteWithFile:@"montagne.png" rect:CGRectMake(0, 0, 1024*10, 512)];
-    [montagne.texture setTexParameters:&params];
-    
-    [parallaxNode addChild:montagne z:2 parallaxRatio:ccp(0.2,1.0) positionOffset:CGPointMake(512,256)];
-    
-    CCSprite *alberi = [CCSprite spriteWithFile:@"alberi.png" rect:CGRectMake(0, 0, 1024*50, 512)];
-    [alberi.texture setTexParameters:&params];
-    alberi.position=ccp(240,0);
-    
-    [parallaxNode addChild:alberi z:3 parallaxRatio:ccp(0.7,1.0) positionOffset:CGPointMake(512,256)];
-    
-    
-    CCSprite *strada = [CCSprite spriteWithFile:@"strada.png" rect:CGRectMake(0, 0, 1024*50, 512)];
-    [strada.texture setTexParameters:&params];
-    strada.position=ccp(240,0);
-    
-    [parallaxNode addChild:strada z:4 parallaxRatio:ccp(1.0,1.0) positionOffset:CGPointMake(512,256)];
-    
-    
-    */
-   
 }
 
 
@@ -365,7 +312,7 @@ enum {
 	world = NULL;
 	
 	delete m_debugDraw;
-
+    
 	// don't forget to call "super dealloc"
 	[super dealloc];
 }

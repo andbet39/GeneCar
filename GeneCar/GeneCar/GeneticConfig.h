@@ -14,13 +14,14 @@
 #define CROSSOVER_POINT 8
 #define VERT_NUM 8
 #define PERC_MUTAZIONE 10
-#define CAR_DIM 8
+#define CAR_DIM 10
 #define OFFSET 0
 #define PTM_RATIO 32
+#define STOP_LIMIT 0.5
 
-#define GRAVITY 12
+#define GRAVITY 14.0
 
-#define V_ITERATION 15
+#define V_ITERATION 25
 #define P_ITERATION 1
 
 #define TIME_MULTIPLIER 1.0

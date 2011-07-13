@@ -19,7 +19,7 @@
 
 @implementation HUDLayer
 SYNTHESIZE_SINGLETON_FOR_CLASS(HUDLayer);
-@synthesize score,avgFitness,generation;
+@synthesize score,avgFitness,generation,lastScore;
 
 - (id)init
 {
@@ -37,8 +37,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HUDLayer);
         generLabel=[CCLabelTTF labelWithString:@"Gen. : 0" fontName:@"Marker Felt" fontSize:15];
         generLabel.position=ccp(290,20);
         [self addChild:generLabel];
+        
+        lastScoreLabel=[CCLabelTTF labelWithString:@"Last Scr : 0" fontName:@"Marker Felt" fontSize:15];
+        lastScoreLabel.position=ccp(320,250);
+        [self addChild:lastScoreLabel];
+        
+         score=avgFitness=generation=lastScore=0;
+        
+        
+        list_elem=0;
+        
         list_y=290;
         list_x=25;
+        
+        
         
         CCMenuItemFont *menuItem1 = [CCMenuItemFont itemFromString:@"Exit" target:self selector:@selector(onExit:)];
 		
@@ -111,6 +123,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HUDLayer);
     [scoreLabel setString:[NSString stringWithFormat:@"Score : %0.02f",score]];
     [avgLabel setString:[NSString stringWithFormat:@"Avg : %0.02f",avgFitness]];
     [generLabel setString:[NSString stringWithFormat:@"Gen. : %d",generation]];
+    [lastScoreLabel setString:[NSString stringWithFormat:@"Last Scr : %f",lastScore]];
 
 }
 

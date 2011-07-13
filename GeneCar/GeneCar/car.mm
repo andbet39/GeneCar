@@ -21,7 +21,7 @@
     if (self) {
 
     
-        position.x=5;
+        position.x=10;
         position.y=4;
     }
     
