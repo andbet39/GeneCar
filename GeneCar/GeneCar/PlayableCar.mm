@@ -15,7 +15,8 @@
 {
     self = [super init];
     if (self) {
-        // Initialization code here.
+        se=[[SoundEngine alloc]init];
+        [se startEngine];
     }
     
     return self;
@@ -39,6 +40,7 @@
     motor1->SetMotorSpeed(0);
     motor1->SetMaxMotorTorque( 0.5);
     
+        [se playMotorSound:[self getSpeed]*0.05 ];
     
 }
 
@@ -50,6 +52,13 @@
     
     motor1->SetMotorSpeed(-15*b2_pi*raggio1);
     motor1->SetMaxMotorTorque(30);
+
+
+}
+
+-(float)getSpeed{
+    
+    return fabsf( ruota0->GetAngularVelocity());
     
 
 }
@@ -61,7 +70,17 @@
     
     motor1->SetMotorSpeed(8*raggio1*b2_pi);
     motor1->SetMaxMotorTorque(27);
+
+}
+
+- (void) dealloc
+{
+	// in case you have something to dealloc, do it in this method
     
+	[se dealloc];
+    
+	// don't forget to call "super dealloc"
+	[super dealloc];
 }
 
 @end

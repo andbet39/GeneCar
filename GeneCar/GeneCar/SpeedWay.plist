@@ -4,6 +4,10 @@
 <dict>
 	<key>track_svg_path</key>
 	<string>m 0,295.75634 20001.02,-8.08122</string>
+	<key>trasf_x</key>
+	<string>0</string>
+	<key>trasf_y</key>
+	<string>732</string>
 	<key>track_name</key>
 	<string>Super SpeedWay</string>
 	<key>gold_time</key>
@@ -12,5 +16,7 @@
 	<string>31.5</string>
 	<key>bronze_time</key>
 	<string>34.0</string>
+	<key>finish_lane_x</key>
+	<string>16000</string>
 </dict>
 </plist>

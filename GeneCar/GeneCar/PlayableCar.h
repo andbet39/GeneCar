@@ -10,15 +10,20 @@
 #import "car.h"
 #import "GeneticConfig.h"
 
+#import "SoundEngine.h"
+
 @interface PlayableCar : car
 {
     float motors_speed;
-
+    
+    SoundEngine *se;
+    float audio_time;
 }
 
 
 -(void) update;
 -(void) accelera;
 -(void) frena;
+-(float) getSpeed;
 
 @end

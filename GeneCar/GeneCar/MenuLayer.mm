@@ -237,9 +237,10 @@
     GameManager * GM=[GameManager sharedGameManager];
 
     [GM setCachedCromo:[GM currentCromo]];
+    [GM setNextAction:@"TEST"];
 
     
-	[[CCDirector sharedDirector] replaceScene:[CCTransitionCrossFade transitionWithDuration:0.5f scene:[TestScene scene]]];
+	[[CCDirector sharedDirector] replaceScene:[CCTransitionCrossFade transitionWithDuration:0.5f scene:[SelectTrackScene scene]]];
 }
 
 -(void) draw

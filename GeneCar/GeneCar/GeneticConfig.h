@@ -19,12 +19,12 @@
 #define PTM_RATIO 32
 #define STOP_LIMIT 0.5
 
-#define GRAVITY 14.0
+#define GRAVITY 15.0
 
-#define V_ITERATION 25
+#define V_ITERATION 20
 #define P_ITERATION 1
 
 #define TIME_MULTIPLIER 1.0
 
-#define SPRING_BASE_FORCE 50
+#define SPRING_BASE_FORCE 80
 #endif

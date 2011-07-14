@@ -11,6 +11,7 @@
 #import "GameManager.h"
 #import "TestScene.h"
 #import "HelloWorldLayer.h"
+#import "RaceScene.h"
 @implementation SelectTrackScene
 
 
@@ -92,10 +93,13 @@
     [GM setSelected_track:track_name];
 
     if([GM.nextAction isEqualToString:@"RACE"]){
-        [[CCDirector sharedDirector] replaceScene:[CCTransitionCrossFade transitionWithDuration:0.5f scene:[TestScene scene]]];
+        [[CCDirector sharedDirector] replaceScene:[CCTransitionCrossFade transitionWithDuration:0.5f scene:[RaceScene scene]]];
     }
     if([GM.nextAction isEqualToString:@"EVOLVI"]){
         [[CCDirector sharedDirector] replaceScene:[CCTransitionCrossFade transitionWithDuration:0.5f scene:[HelloWorldLayer scene]]];
+    }
+    if([GM.nextAction isEqualToString:@"TEST"]){
+        [[CCDirector sharedDirector] replaceScene:[CCTransitionCrossFade transitionWithDuration:0.5f scene:[TestScene scene]]];
     }
     
     

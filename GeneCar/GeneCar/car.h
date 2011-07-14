@@ -38,7 +38,7 @@
     
 }
 
-@property(readwrite)Cromosome *cromosome;
+@property(assign,readwrite)Cromosome *cromosome;
 
 -(void) generaRandom : (b2World *) world;
 -(void) generaFromCromosome : (Cromosome*)c world:(b2World *) world;
